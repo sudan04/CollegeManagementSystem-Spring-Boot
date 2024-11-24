@@ -1,7 +1,15 @@
 package com.example.cms.entity;
 
-import jakarta.persistence.*;
 import java.time.LocalDate;
+
+import org.hibernate.annotations.CreationTimestamp;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Student {
@@ -12,22 +20,26 @@ public class Student {
     @OneToOne
     @JoinColumn(name = "user_id", 
     			referencedColumnName= "userId",
-    			unique = true
+    			unique = true,
+    			updatable = false
     )
-    private User user;
+    private Users user;
+    
 
+    @CreationTimestamp
     private LocalDate enrollmentDate;
     private String program;
+     
 	public Long getStudentId() {
 		return studentId;
 	}
 	public void setStudentId(Long studentId) {
 		this.studentId = studentId;
 	}
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
 	public LocalDate getEnrollmentDate() {
@@ -43,10 +55,11 @@ public class Student {
 		this.program = program;
 	}
 	
-	
 	@Override
 	public String toString() {
-		return "Student [studentId=" + studentId + ", user=" + user + ", enrollmentDate=" + enrollmentDate
-				+ ", program=" + program + "]";
+		return "Student [studentId=" + studentId + ", user=" + user + ", enrollmentDate="
+				+ enrollmentDate + ", program=" + program + "]";
 	}
+	
+	
 }

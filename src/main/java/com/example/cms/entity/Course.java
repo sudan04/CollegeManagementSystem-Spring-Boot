@@ -10,13 +10,30 @@ public class Course {
 
     @Column(unique = true, nullable = false)
     private String courseCode;
-
     private String courseName;
     private int credits;
     
+    @ManyToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name= "department_id", referencedColumnName= "departmentId")
+    private Department department;
 
-    @OneToOne(mappedBy = "course", cascade = CascadeType.ALL)
-    private CourseMaterial courseMaterial;
+    @ManyToOne(cascade= CascadeType.ALL)
+    @JoinColumn(name = "faculty_id", referencedColumnName = "facultyId")
+    private Faculty faculty;
+    private String courseMaterial;
+    
+    
+    
+    
+    
+	
+	public String getCourseMaterial() {
+		return courseMaterial;
+	}
+
+	public void setCourseMaterial(String courseMaterial) {
+		this.courseMaterial = courseMaterial;
+	}
 
 	public Long getCourseId() {
 		return courseId;
@@ -51,21 +68,29 @@ public class Course {
 	}
 
 
-	public CourseMaterial getCourseMaterial() {
-		return courseMaterial;
+	public Department getDepartment() {
+		return department;
 	}
 
-	public void setCourseMaterial(CourseMaterial courseMaterial) {
-		this.courseMaterial = courseMaterial;
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
+
+	public Faculty getFaculty() {
+		return faculty;
+	}
+
+	public void setFaculty(Faculty faculty) {
+		this.faculty = faculty;
 	}
 
 	@Override
 	public String toString() {
 		return "Course [courseId=" + courseId + ", courseCode=" + courseCode + ", courseName=" + courseName
-				+ ", credits=" + credits +", courseMaterial=" + courseMaterial + "]";
+				+ ", credits=" + credits + ", department=" + department + ", faculty=" + faculty + ", courseMaterial="
+				+ courseMaterial + "]";
 	}
-    
-    
-    
+
+	
 
 }

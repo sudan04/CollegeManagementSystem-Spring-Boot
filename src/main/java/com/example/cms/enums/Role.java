@@ -1,4 +1,4 @@
-package com.example.cms.entity;
+package com.example.cms.enums;
 
 public enum Role {
     ADMIN, FACULTY, STUDENT

@@ -1,5 +1,16 @@
 package com.example.cms.repository;
 
-public class UserRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.example.cms.entity.Users;
+
+public interface UserRepository extends JpaRepository<Users, Long>{
+  public Users findByUserName(String userName);
+
+public Users findByUserId(long id);
+
+public Users findByEmail(String email);
+
+
+public boolean deleteByUserId(Long userId);
 }

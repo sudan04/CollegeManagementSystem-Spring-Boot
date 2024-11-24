@@ -3,40 +3,50 @@ package com.example.cms.entity;
 import jakarta.persistence.*;
 import java.time.LocalDate;
 
+import org.hibernate.annotations.CreationTimestamp;
+
 @Entity
 public class Faculty {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long facultyId;
 
-    @OneToOne
+    @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(
     		name = "user_id",
     		referencedColumnName= "userId",
     		unique = true
     )
-    private User user;
+    private Users user;
 
-    private String department;
-    private LocalDate joiningDate;
+   @ManyToOne
+   @JoinColumn(name= "department_id", referencedColumnName= "departmentId")
+   private Department department;
+   
+   @CreationTimestamp
+   private LocalDate joiningDate;
+    
+	
+   	public Department getDepartment() {
+		return department;
+	}
+   
+	public void setDepartment(Department department) {
+		this.department = department;
+	}
 	public Long getFacultyId() {
 		return facultyId;
 	}
 	public void setFacultyId(Long facultyId) {
 		this.facultyId = facultyId;
 	}
-	public User getUser() {
+	public Users getUser() {
 		return user;
 	}
-	public void setUser(User user) {
+	public void setUser(Users user) {
 		this.user = user;
 	}
-	public String getDepartment() {
-		return department;
-	}
-	public void setDepartment(String department) {
-		this.department = department;
-	}
+	
 	public LocalDate getJoiningDate() {
 		return joiningDate;
 	}

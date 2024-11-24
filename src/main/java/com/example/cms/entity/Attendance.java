@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,7 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long attendanceId;
 
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(
     		name = "student_id",
     		referencedColumnName= "studentId"
@@ -25,12 +26,13 @@ public class Attendance {
     private Student student;
 
 
-    @ManyToOne
+    @ManyToOne(cascade= CascadeType.ALL)
     @JoinColumn(
     		name = "course_id",
     		referencedColumnName= "courseId"
     )
     private Course course;
+    
 
     @CreationTimestamp
     private LocalDate date;
@@ -66,6 +68,14 @@ public class Attendance {
 	}
 	public void setIsPresent(Boolean isPresent) {
 		this.isPresent = isPresent;
+	}
+	
+	
+	public Faculty getFaculty() {
+		return faculty;
+	}
+	public void setFaculty(Faculty faculty) {
+		this.faculty = faculty;
 	}
 	@Override
 	public String toString() {

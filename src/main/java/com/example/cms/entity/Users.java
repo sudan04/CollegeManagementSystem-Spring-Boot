@@ -2,6 +2,10 @@ package com.example.cms.entity;
 
 import java.time.LocalDate;
 
+import org.hibernate.annotations.CreationTimestamp;
+
+import com.example.cms.enums.Role;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -12,24 +16,27 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 @Entity
 @Table(name= "_user_tbl")
-public class User {
+public class Users {
 	@Id
 	@GeneratedValue(strategy= GenerationType.IDENTITY)
 	private Long userId;
 	
-	@Column(unique= true)
+	@Column(unique= true, nullable = false)
 	private String userName;
 	private String firstName;
 	private String lastname;
 	
-	@Column(unique= true)
+	@Column(unique= true, nullable = false)
 	private String email;
 	
 	@Enumerated(EnumType.STRING)
+	@Column(nullable = false)
 	private Role role;
 	
+	@Column(nullable = false)
 	private String password;
 	
+	@CreationTimestamp
 	private LocalDate createdOn;
 	
 	private String department;
