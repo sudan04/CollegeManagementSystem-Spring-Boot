@@ -1,6 +1,5 @@
 package com.example.cms.service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +16,10 @@ public class UserService {
 	@Autowired
 	private UserRepository userRepository;
 	
+//	@Autowired
+//	private DepartmentRepository departmentRepository;
+	
+	
 	
 	
 	public Users findByUserId(Long userId) throws Exception {
@@ -28,6 +31,7 @@ public class UserService {
 	}
 
 	public Users addNewUser(Users user) throws Exception{
+		user.setPassword(encoder.encode(user.getPassword()));
 		Users newUser= userRepository.save(user);
 		if(newUser==null) throw new Exception("User not created");
 		return newUser;
@@ -53,12 +57,12 @@ public class UserService {
 		return userRepository.deleteByUserId(userId);
 	}
 
-	public Users updateUser(Users oldUser, Users user) {
-		oldUser.setFirstName(user.getFirstName()!=null && !user.getFirstName().equals("")? user.getFirstName():oldUser.getFirstName());
-		oldUser.setLastname(user.getLastname()!=null && !user.getLastname().equals("")? user.getLastname():oldUser.getLastname());
-		oldUser.setEmail(user.getEmail()!=null && !user.getEmail().equals("")? user.getEmail():oldUser.getEmail());
-		return userRepository.save(oldUser);
-	
-	}
+//	public Users updateUser(Users oldUser, Users user) {
+//		oldUser.setFirstName(user.getFirstName()!=null && !user.getFirstName().equals("")? user.getFirstName():oldUser.getFirstName());
+//		oldUser.setLastname(user.getLastname()!=null && !user.getLastname().equals("")? user.getLastname():oldUser.getLastname());
+//		oldUser.setEmail(user.getEmail()!=null && !user.getEmail().equals("")? user.getEmail():oldUser.getEmail());
+//		return userRepository.save(oldUser);
+//	
+//	}
 	
 }

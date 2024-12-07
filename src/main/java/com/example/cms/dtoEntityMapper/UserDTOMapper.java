@@ -15,11 +15,10 @@ public class UserDTOMapper {
 	        userDTO.setUserId(user.getUserId());
 	        userDTO.setUserName(user.getUserName());
 	        userDTO.setFirstName(user.getFirstName());
-	        userDTO.setLastname(user.getLastname());
+	        userDTO.setLastname(user.getLastName());
 	        userDTO.setEmail(user.getEmail());
 	        userDTO.setRole(user.getRole());
 	        userDTO.setCreatedOn(user.getCreatedOn());
-	        userDTO.setDepartment(user.getDepartment());
 
 	        return userDTO;
 	}
@@ -32,11 +31,10 @@ public class UserDTOMapper {
 	            userDTO.setUserId(user.getUserId());
 	            userDTO.setUserName(user.getUserName());
 	            userDTO.setFirstName(user.getFirstName());
-	            userDTO.setLastname(user.getLastname());
+	            userDTO.setLastname(user.getLastName());
 	            userDTO.setEmail(user.getEmail());
 	            userDTO.setRole(user.getRole());
 	            userDTO.setCreatedOn(user.getCreatedOn());
-	            userDTO.setDepartment(user.getDepartment());
 	            userDTOList.add(userDTO);
 	        }
 	        return userDTOList; 

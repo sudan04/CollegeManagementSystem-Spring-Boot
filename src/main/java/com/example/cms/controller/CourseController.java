@@ -10,12 +10,16 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cms.dto.CourseDTO;
 import com.example.cms.dtoEntityMapper.CourseDTOMapper;
 import com.example.cms.dtoEntityMapper.PopularCourseDTOMapper;
 import com.example.cms.entity.Course;
+import com.example.cms.entity.Department;
 import com.example.cms.service.CourseService;
+import com.example.cms.service.DepartmentService;
+import com.example.cms.service.FacultyService;
 
 @Controller
 @RequestMapping("/admin")
@@ -26,34 +30,66 @@ public class CourseController {
 
     @Autowired
     private CourseDTOMapper courseDTOMapper;
+    
+    @Autowired
+    private FacultyService facultyService;
+    
+    @Autowired
+    private DepartmentService departmentService;
 
     @Autowired
     private PopularCourseDTOMapper popularCourseDTOMapper;
 
     // Create a new course
-    @PostMapping("/createNewCourse")
-    public String createNewCourse(@ModelAttribute CourseDTO courseDetails, Model model) {
+    @PostMapping("/saveCourse")
+    public String createNewCourse(@ModelAttribute CourseDTO courseDetails, Model model) throws Exception {
         try {
-            Course newCourse = courseService.createNewCourse(courseDetails);
-            if (newCourse == null) throw new Exception("Course creation denied");
-            model.addAttribute("course", courseDTOMapper.toDTO(newCourse));
-            model.addAttribute("successMessage", "Course created successfully!");
+        	Long id= courseDetails.getCourseId();
+        	if(id != null)
+        		courseService.updateCourseById(id, courseDetails);
+        	else
+        		courseService.createNewCourse(courseDetails);
+//            model.addAttribute("course", courseDTOMapper.toDTO(newCourse));
+//            model.addAttribute("successMessage", "Course created successfully!");
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
+//            model.addAttribute("errorMessage", e.getMessage());
         }
-        return "courseManagement"; 
+        return "redirect:/admin/fetchAllCourse"; 
     }
+    
+    
+    @GetMapping("/saveCourse")
+    public String showAddCourseForm(@RequestParam(name="courseId", required = false) Long courseId, Model model) {
+    	Course course;
+    	try {
+    		if(courseId != null) {
+    			course= courseService.findByCourseId(courseId);
+    		}else {
+    			course= new Course();
+    		}
+    		model.addAttribute("course", course);
+	        model.addAttribute("departments", departmentService.fetchAllDepartments());
+	        model.addAttribute("faculties", facultyService.fetchAllFaculty());
+    	}catch(Exception e) {
+    		model.addAttribute("errorMessage", "Something went wrong!");
+    	}
+    	
+    	model.addAttribute("content", "addCourse");
+    	
+        return "sidebar"; 
+    }
+    
 
     // Delete course by ID
-    @GetMapping("/deleteCourse/courseId/{courseId}")
-    public String deleteCourse(@PathVariable(name = "courseId") Long courseId, Model model) {
-        boolean isDeleted = courseService.deleteCourse(courseId);
-        if (isDeleted) {
+    @GetMapping("/deleteCourse")
+    public String deleteCourse(@RequestParam(name = "courseId") Long courseId, Model model) {
+        int rowsAffected = courseService.deleteCourse(courseId);
+        if (rowsAffected>=1) {
             model.addAttribute("successMessage", "Course deleted successfully!");
         } else {
             model.addAttribute("errorMessage", "Failed to delete course.");
         }
-        return "courseManagement"; 
+        return "redirect:/admin/fetchAllCourse"; 
     }
 
     // Update course by ID
@@ -75,11 +111,12 @@ public class CourseController {
     public String fetchAllCourse(Model model) throws Exception {
         List<Course> courseList = courseService.fetchAllCourses();
         if (courseList != null && !courseList.isEmpty()) {
-            model.addAttribute("courses", courseDTOMapper.toDTOs(courseList));
+            model.addAttribute("courses", courseList);
         } else {
-            model.addAttribute("errorMessage", "No courses found.");
+//            model.addAttribute("errorMessage", "No courses found.");
         }
-        return "courseList"; 
+        model.addAttribute("content", "courseList");
+        return "sidebar"; 
     }
 
     // Fetch course by courseId
@@ -108,15 +145,23 @@ public class CourseController {
         return "courseDetails";
     }
 
-    // Find top N most enrolled courses
-    @GetMapping("/topNEnrolledCourse/{n}")
-    public String fetchTopNEnrolledCourses(@PathVariable(name = "n") int n, Model model) {
-        List<Object[]> topNCourses = courseService.fetchTopNCourse(n);
-        if (topNCourses != null && !topNCourses.isEmpty()) {
-            model.addAttribute("popularCourses", popularCourseDTOMapper.toPopularCourseDTOs(topNCourses));
-        } else {
-            model.addAttribute("errorMessage", "No popular courses found.");
-        }
-        return "popularCourses";
-    }
+  
+    
+    
+//    // return courseList page
+//    @GetMapping("/courseList")
+//    public String viewCourses(Model model)  {
+//		try {
+//			List<Course> courses = courseService.fetchAllCourses();
+//			List<Department> departments = departmentService.fetchAllDepartments();
+//			 
+//	        model.addAttribute("courses", courses);
+//	        model.addAttribute("departments", departments);
+//		} catch (Exception e) {
+//		}
+//		model.addAttribute("content", "courseList");
+//		
+//        return "sidebar";
+//    }
+
 }

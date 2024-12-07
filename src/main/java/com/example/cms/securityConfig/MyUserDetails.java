@@ -1,54 +1,61 @@
 package com.example.cms.securityConfig;
 
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.example.cms.entity.Users;
 
+public class MyUserDetails implements UserDetails {
 
-public class MyUserDetails implements UserDetails{
-	
-	private Users user;
-	private String password;
-	private String username;
-	
-	public MyUserDetails(Users user) {
-		this.user=user;
-		this.password= user.getPassword();
-		this.username= user.getUserName();
-	}
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		
-		return null;
-	}
-	
-	
+    private final Users user;
+    private final List<GrantedAuthority> authorities;
 
-	public Users getUser() {
-		return user;
-	}
-	public void setUser(Users user) {
-		this.user = user;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	public void setUsername(String username) {
-		this.username = username;
-	}
-	@Override
-	public String getPassword() {
-		
-		return this.password;
-	}
+    public MyUserDetails(Users user) {
+        this.user = user;
+        this.authorities = Arrays.stream(user.getRole().toString().split(","))
+                .map(role -> "ROLE_" + role.trim()) // Add ROLE_ prefix
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+    }
 
-	@Override
-	public String getUsername() {
-		
-		return this.username;
-	}
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return authorities;
+    }
 
+    @Override
+    public String getPassword() {
+        return user.getPassword();
+    }
+
+    @Override
+    public String getUsername() {
+        return user.getUserName();
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }

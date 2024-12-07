@@ -70,20 +70,12 @@ public class Attendance {
 		this.isPresent = isPresent;
 	}
 	
-	
-	public Faculty getFaculty() {
-		return faculty;
-	}
-	public void setFaculty(Faculty faculty) {
-		this.faculty = faculty;
-	}
+
 	@Override
 	public String toString() {
 		return "Attendance [attendanceId=" + attendanceId + ", student=" + student + ", course=" + course + ", date="
 				+ date + ", isPresent=" + isPresent + "]";
 	}
 
-   
-    
 }
 

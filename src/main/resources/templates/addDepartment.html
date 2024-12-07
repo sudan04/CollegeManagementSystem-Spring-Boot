@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${department != null} ? 'Update Department' : 'Add Department'">Add/Update Department</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+
+        form input, form select, form textarea, form button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        form button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        form button:hover {
+            background-color: #45a049;
+        }
+
+        .filter-input {
+            margin-bottom: 10px;
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <h1 th:text="${department != null} ? 'Update Department' : 'Add Department'">Add/Update Department</h1>
+        <form th:action=" @{/admin/saveDepartment}" method="post">
+            <input type="hidden" name="departmentId" th:if="${department != null}" th:value="${department.departmentId}">
+            
+            <label for="name">Department Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter department name" th:value="${department?.name}" required>
+            
+            <label for="description">Description:</label>
+            <textarea id="description" name="description" placeholder="Enter description" th:text="${department?.description}" required></textarea>
+            
+            <label for="hodSearch">Search Head of Department:</label>
+            <input type="text" id="hodSearch" class="filter-input" placeholder="Search by name or email" oninput="filterHOD()">
+            
+            <label for="headOfDepartment">Head of Department:</label>
+            <select id="headOfDepartment" name="departmentHead">
+                <option value="">Select Head of Department</option>
+                <option th:each="faculty : ${faculties}" 
+                        th:value="${faculty.facultyId}" 
+                        th:text="${faculty.user.firstName + ' ' + faculty.user.lastName + ' (' + faculty.user.email + ')'}"
+                        th:selected="${department?.headOfDepartment?.facultyId == faculty.facultyId}"></option>
+            </select>
+            
+            <button type="submit" th:text="${department != null ? 'Update Department' : 'Create Department'}">Submit</button>
+        </form>
+    </div>
+
+    <script>
+        // Filter Head of Department by search input
+        function filterHOD() {
+            const searchValue = document.getElementById('hodSearch').value.toLowerCase();
+            const hodOptions = document.querySelectorAll('#headOfDepartment option');
+
+            hodOptions.forEach(option => {
+                const text = option.textContent.toLowerCase();
+                option.style.display = text.includes(searchValue) ? 'block' : 'none';
+            });
+        }
+    </script>
+</body>
+</html>

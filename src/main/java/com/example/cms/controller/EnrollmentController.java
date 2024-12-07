@@ -8,27 +8,45 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import com.example.cms.entity.Enrollment;
+import com.example.cms.service.CourseService;
 import com.example.cms.service.EnrollmentService;
+import com.example.cms.service.StudentService;
 
 @Controller
-@RequestMapping("/admin")
+@RequestMapping("")
 public class EnrollmentController {
 
     @Autowired
     private EnrollmentService enrollmentService;
+    
+    @Autowired
+    private CourseService courseService;
+    
+    @Autowired
+    private StudentService studentService;
 
     // Add new enrollment
-    @PostMapping("/addEnrollment/{studentId}/{courseId}")
-    public String addEnrollment(@PathVariable(name = "studentId") Long studentId, 
-                                 @PathVariable(name = "courseId") Long courseId, Model model) {
+    @PostMapping("/addEnrollment")
+    public String addEnrollment(@RequestParam(name = "studentId") Long studentId, 
+    		@RequestParam(name = "courseId") Long courseId, Model model) {
         try {
             Enrollment enrollment = enrollmentService.addEnrollment(studentId, courseId);
-            model.addAttribute("successMessage", "Enrollment added successfully!");
-            model.addAttribute("enrollment", enrollment);
+//            model.addAttribute("successMessage", "Enrollment added successfully!");
+//            model.addAttribute("enrollment", enrollment);
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
+//            model.addAttribute("errorMessage", e.getMessage());
         }
-        return "enrollmentManagementPage";
+        return "redirect:/fetchAllEnrollments";
+    }
+    
+    
+    @GetMapping("/addEnrollment")
+    public String getEnrollmentPage(Model model) throws Exception {
+    	model.addAttribute("courses", courseService.fetchAllCourses());
+    	model.addAttribute("students", studentService.fetchAllStudents());
+
+    	model.addAttribute("content", "EnrollStudent");
+    	return "sidebar";
     }
 
     // Delete enrollment by id
@@ -65,10 +83,12 @@ public class EnrollmentController {
         try {
             List<Enrollment> enrollments = enrollmentService.fetchAllEnrollments();
             model.addAttribute("enrollments", enrollments);
+            model.addAttribute("courses", courseService.fetchAllCourses());
         } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
+//            model.addAttribute("errorMessage", e.getMessage());
         }
-        return "enrollmentManagementPage";
+        model.addAttribute("content", "viewEnrollment");
+        return "sidebar";
     }
     
     

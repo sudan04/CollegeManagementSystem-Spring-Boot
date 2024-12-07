@@ -29,34 +29,48 @@ public class DepartmentService {
 	// create new department
 	public Department createDepartment(DepartmentDTO departmentDTO) {
 		Department department= departmentDTOMapper.toEntity(departmentDTO);
-		
+		System.out.println(departmentDTO.getDepartmentHead());
 		Faculty headOfDepartment= facultyRepository.findByFacultyId(departmentDTO.getDepartmentHead());
-		
+		System.out.println(headOfDepartment);
 		department.setHeadOfDepartment(headOfDepartment);
 		return departmentRepository.save(department);
 	}
 
 
 	// delete department by Id
-	public boolean deleteById(Long departmentId) throws Exception {
+	public int deleteById(Long departmentId) throws Exception {
 		Department department= departmentRepository.findByDepartmentId(departmentId);
 		if(department==null) throw new Exception("department not found");
+		
+		department.setHeadOfDepartment(null);
+		departmentRepository.save(department);
 		
 		return departmentRepository.deleteByDepartmentId(departmentId);
 	}
 
 	// update department by Id
-	public Department updateDepartment(Long departmentId, DepartmentDTO departmentDTO) throws Exception{
-		Department oldDepartment= departmentRepository.findByDepartmentId(departmentId);
-		
-		Faculty newDepartmentHead= facultyRepository.findByFacultyId(departmentDTO.getDepartmentHead());
-		
-		oldDepartment.setDescription(departmentDTO.getDescription()!=""?departmentDTO.getDescription():oldDepartment.getDescription());
-		oldDepartment.setHeadOfDepartment(newDepartmentHead!=null? newDepartmentHead: oldDepartment.getHeadOfDepartment());
-		oldDepartment.setName(departmentDTO.getName()!="" && departmentDTO.getName()!=null?departmentDTO.getName():oldDepartment.getName());
-		
-		return departmentRepository.save(oldDepartment);
+	public Department updateDepartment(Long departmentId, DepartmentDTO departmentDTO) throws Exception {
+	    Department oldDepartment = departmentRepository.findByDepartmentId(departmentId);
+	    if (departmentDTO.getName() != null && !departmentDTO.getName().isEmpty() && 
+	        !departmentDTO.getName().equals(oldDepartment.getName())) {
+	        
+	        Department existingDepartment = departmentRepository.findByName(departmentDTO.getName());
+	        if (existingDepartment != null) {
+	            throw new Exception("Department name already exists");
+	        }
+	        
+	        oldDepartment.setName(departmentDTO.getName());
+	    }
+	    oldDepartment.setDescription(departmentDTO.getDescription() != null && !departmentDTO.getDescription().isEmpty() 
+	                                 ? departmentDTO.getDescription() 
+	                                 : oldDepartment.getDescription());
+	    if (departmentDTO.getDepartmentHead() != null) {
+	        Faculty newDepartmentHead = facultyRepository.findByFacultyId(departmentDTO.getDepartmentHead());
+	        oldDepartment.setHeadOfDepartment(newDepartmentHead != null ? newDepartmentHead : oldDepartment.getHeadOfDepartment());
+	    }
+	    return departmentRepository.save(oldDepartment);
 	}
+
 
 	//find department by id
 	public Department findDepartmentById(Long departmentId) throws Exception{

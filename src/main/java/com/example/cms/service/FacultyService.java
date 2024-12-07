@@ -25,7 +25,6 @@ public class FacultyService {
 		if(newUser==null) throw new Exception("Cant create faculty!");
 		Faculty newFaculty= new Faculty();
 		newFaculty.setUser(newUser);
-		
 		return facultyRepository.save(newFaculty);
 	}
 
@@ -67,6 +66,11 @@ public class FacultyService {
 		if(faculties==null) throw new Exception("No faculties exist!!");
 		
 		return faculties;
+	}
+
+	// get total faculty count
+	public Long getFacultyCount() {
+		return facultyRepository.count();
 	}
 
 }

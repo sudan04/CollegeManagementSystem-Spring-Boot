@@ -19,7 +19,7 @@ class UserRepositoryTest {
 		Users user = new Users();
 		
 		user.setFirstName("Nisil");
-		user.setLastname("Pantha");
+		user.setLastName("Pantha");
 		user.setDepartment("BCA");
 		user.setEmail("nisil1@gmail.com");
 		user.setPassword("nisil123");

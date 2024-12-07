@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .profile-container {
+            max-width: 600px;
+            margin: auto;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            font-size: 16px;
+            margin: 10px 0;
+        }
+
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            text-align: center;
+            padding: 10px 15px;
+            background: #4CAF50;
+            color: #ffffff;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        a:hover {
+            background: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <a th:href="@{/userProfile}">View Profile</a>
+        <div th:if="${user}">
+            <h1>User Profile</h1>
+            <p><strong>Username:</strong> <span th:text="${user.userName}"></span></p>
+            <p><strong>First Name:</strong> <span th:text="${user.firstName}"></span></p>
+            <p><strong>Last Name:</strong> <span th:text="${user.lastName}"></span></p>
+            <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+            <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+            <p><strong>Department:</strong> <span th:text="${user.department}"></span></p>
+        </div>
+        <a th:href="@{/logout}">Logout!</a>
+    </div>
+</body>
+</html>

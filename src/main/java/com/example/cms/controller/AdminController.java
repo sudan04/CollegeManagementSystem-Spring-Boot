@@ -1,5 +1,6 @@
 package com.example.cms.controller;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,13 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.example.cms.dtoEntityMapper.UserDTOMapper;
 import com.example.cms.entity.Users;
 import com.example.cms.enums.Role;
+import com.example.cms.service.CourseService;
 import com.example.cms.service.FacultyService;
 import com.example.cms.service.StudentService;
 import com.example.cms.service.UserService;
 
 @Controller
 @RequestMapping("/admin")
-public class UserController {
+public class AdminController {
 
     @Autowired
     private UserService userService;
@@ -33,24 +35,38 @@ public class UserController {
     
     @Autowired
     private FacultyService facultyService;
+    
+    @Autowired 
+    private CourseService courseService;
 
+    //get user register form
+    @GetMapping("/createUser")
+    public String createUser(Model model) {
+    	model.addAttribute("content", "register");
+    	return "sidebar";
+    }
+    
     
     // create new USer
     @PostMapping("/createUser")
     public String createUser(@ModelAttribute Users user, Model model) {
         try {
             Users newUser = userService.addNewUser(user);
+           
             if(newUser.getRole().equals(Role.STUDENT)) {
             	studentService.addStudent(newUser);
+            	
             }else if(newUser.getRole().equals(Role.FACULTY)) {
             	facultyService.addFaculty(newUser);
+            
             }
             model.addAttribute("successMessage", "User created successfully!");
         } catch (Exception e) {
             model.addAttribute("errorMessage", "Cannot register user: " + e.getMessage());
         }
+        model.addAttribute("content", "register");
         
-        return "userManagement"; 
+        return "sidebar";  
     }
 
     // Delete user by userID
@@ -62,38 +78,38 @@ public class UserController {
         } else {
             model.addAttribute("errorMessage", "User not found!");
         }
-        return "userManagement";
+        return "register";
     }
 
     //Update user by email
-    @PostMapping("/updateUser/email/{email}")
-    public String updateUserByEmail(@PathVariable String email, @ModelAttribute Users user, Model model) {
-        try {
-            Users oldUser = userService.findByEmail(email);
-            if (oldUser == null) throw new Exception("Cannot find user by this email");
-            Users updatedUser = userService.updateUser(oldUser, user);
-            model.addAttribute("user", userMapper.usersToDTO(updatedUser));
-            model.addAttribute("successMessage", "User updated successfully!");
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
-        }
-        return "userManagement";
-    }
+//    @PostMapping("/updateUser/email/{email}")
+//    public String updateUserByEmail(@PathVariable String email, @ModelAttribute Users user, Model model) {
+//        try {
+//            Users oldUser = userService.findByEmail(email);
+//            if (oldUser == null) throw new Exception("Cannot find user by this email");
+//            Users updatedUser = userService.updateUser(oldUser, user);
+//            model.addAttribute("user", userMapper.usersToDTO(updatedUser));
+//            model.addAttribute("successMessage", "User updated successfully!");
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", e.getMessage());
+//        }
+//        return "register";
+//    }
 
     // update user by userID
-    @PostMapping("/updateUser/userId/{userId}")
-    public String updateUserById(@PathVariable Long userId, @ModelAttribute Users user, Model model) {
-        try {
-            Users oldUser = userService.findByUserId(userId);
-            if (oldUser == null) throw new Exception("Cannot find user by this userId");
-            Users updatedUser = userService.updateUser(oldUser, user);
-            model.addAttribute("user", userMapper.usersToDTO(updatedUser));
-            model.addAttribute("successMessage", "User updated successfully!");
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
-        }
-        return "userManagement";
-    }
+//    @PostMapping("/updateUser/userId/{userId}")
+//    public String updateUserById(@PathVariable Long userId, @ModelAttribute Users user, Model model) {
+//        try {
+//            Users oldUser = userService.findByUserId(userId);
+//            if (oldUser == null) throw new Exception("Cannot find user by this userId");
+//            Users updatedUser = userService.updateUser(oldUser, user);
+//            model.addAttribute("user", userMapper.usersToDTO(updatedUser));
+//            model.addAttribute("successMessage", "User updated successfully!");
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", e.getMessage());
+//        }
+//        return "register";
+//    }
 
     // search user by email
     @GetMapping("/findUser/email/{email}")
@@ -105,7 +121,7 @@ public class UserController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "userDetails";
+        return "register";
     }
 
     
@@ -119,7 +135,7 @@ public class UserController {
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "userDetails";
+        return "register";
     }
 
     
@@ -136,4 +152,25 @@ public class UserController {
         }
         return "";
     }
+    
+    
+    // get data for adminHome
+    @GetMapping("/adminHomeData")
+    public String getAdminHomeData(Model model) {
+    	Long totalStudents= studentService.getStudentCount();
+    	Long totalFaculies= facultyService.getFacultyCount();
+    	Long totalCourses= courseService.getCourseCount();
+    	HashMap<String,Integer> studentEnrollment= courseService.getMostPopularCourses(3);
+    	System.out.println("  ....   " +studentEnrollment);
+    	model.addAttribute("topNCourse", studentEnrollment);
+    	
+    	model.addAttribute("studentCount", totalStudents);
+    	model.addAttribute("facultyCount", totalFaculies);
+    	model.addAttribute("courseCount", totalCourses);
+    	
+    	model.addAttribute("content", "AdminDashboard");
+    	
+    	return "sidebar";
+    }
+    
 }

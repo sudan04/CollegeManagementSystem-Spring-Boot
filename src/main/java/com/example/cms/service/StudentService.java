@@ -70,9 +70,13 @@ public class StudentService {
         }
         return students;
     }
+//
+//	public Student findStudentDetailByUserId(MyUserDetails user) {
+//		
+//	return	studentRepository.findByUser(user.getUser());
+//	}
 
-	public Student findStudentDetailByUserId(MyUserDetails user) {
-		
-	return	studentRepository.findByUser(user.getUser());
+	public Long getStudentCount() {
+		return  studentRepository.count();
 	}
 }

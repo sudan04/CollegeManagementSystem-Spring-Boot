@@ -1,6 +1,14 @@
 package com.example.cms.entity;
 
-import jakarta.persistence.*;
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToOne;
 
 @Entity
 public class Course {
@@ -13,13 +21,15 @@ public class Course {
     private String courseName;
     private int credits;
     
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne(optional= true)
     @JoinColumn(name= "department_id", referencedColumnName= "departmentId")
     private Department department;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne(optional= true)
     @JoinColumn(name = "faculty_id", referencedColumnName = "facultyId")
     private Faculty faculty;
+   
+    
     private String courseMaterial;
     
     

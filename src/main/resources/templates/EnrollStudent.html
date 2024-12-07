@@ -84,6 +84,7 @@
     </style>
 </head>
 <body>
+
     <h1>Enroll Student in Course</h1>
     
     <!-- Display success message if enrollment is successful -->
@@ -92,7 +93,7 @@
     </div>
 
     <!-- Enrollment Form -->
-    <form th:action="@{/enroll}" method="post">
+    <form th:action="@{/addEnrollment}" method="post">
         <label for="student">Search and Select Student:</label>
         
         <!-- Search Input -->
@@ -102,8 +103,8 @@
         <select id="student" name="studentId" required size="5">
             <option value="" disabled selected>Choose a student</option>
             <option th:each="student : ${students}" 
-                    th:value="${student.id}" 
-                    th:text="${student.name}"></option>
+                    th:value="${student.studentId}" 
+                    th:text="${student.user.firstName}+' '+${student.user.lastName}"></option>
         </select>
         <br>
 
@@ -111,8 +112,8 @@
         <select id="course" name="courseId" required>
             <option value="" disabled selected>Choose a course</option>
             <option th:each="course : ${courses}" 
-                    th:value="${course.id}" 
-                    th:text="${course.name}"></option>
+                    th:value="${course.courseId}" 
+                    th:text="${course.courseName}"></option>
         </select>
         <br>
 

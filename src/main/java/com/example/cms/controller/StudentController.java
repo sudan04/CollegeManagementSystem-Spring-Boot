@@ -16,6 +16,8 @@ import com.example.cms.entity.Student;
 import com.example.cms.securityConfig.MyUserDetails;
 import com.example.cms.service.StudentService;
 
+import jakarta.servlet.http.HttpSession;
+
 @Controller
 @RequestMapping("/admin")
 public class StudentController {
@@ -77,9 +79,16 @@ public class StudentController {
         return "studentManagementPage"; 
     }
     
-    @GetMapping("/viewStudentDetails")
-    public String getStudentData(@AuthenticationPrincipal MyUserDetails user) {
-    	Student student =studentService.findStudentDetailByUserId(user);
-    	return "done";
-    }
+ 
+    
+    
+    
+//    @GetMapping("/viewStudentDetails")
+//    public String getStudentDataa(@AuthenticationPrincipal MyUserDetails user,HttpSession session) {
+//    	session.getAttribute("session");
+//    	Student student =studentService.findStudentDetailByUserId(user);
+//    	return "done";
+//    }
+//    
+    
 }

@@ -1,5 +1,6 @@
 package com.example.cms.service;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,7 +51,7 @@ public class CourseService {
 
 	
 	//delete course by courseId
-	public boolean deleteCourse(Long courseId) {
+	public int deleteCourse(Long courseId) {
 		return courseRepository.deleteByCourseId(courseId);
 	}
 
@@ -100,9 +101,27 @@ public class CourseService {
 
 
 	//fetch topN most popular courses
-	public List<Object[]> fetchTopNCourse(int n) {
-		List<Object[]> courses= enrollmentRepository.getMostPopularCourses(n);
-		return courses;
+
+    public HashMap<String, Integer> getMostPopularCourses(int topN) {
+        List<Object[]> results = enrollmentRepository.getMostPopularCourses(topN);
+        System.out.println("results--------"+results);
+        HashMap<String, Integer> studentEnrollment = new HashMap<>();
+
+        for (Object[] result : results) {
+            String courseName = (String) result[0];
+            Integer enrollmentCount = ((Number) result[1]).intValue();
+            System.out.println(courseName+"    .     ."+enrollmentCount);
+            studentEnrollment.put(courseName, enrollmentCount);
+        }
+
+        return studentEnrollment;
+    }
+
+
+
+	// get total course count
+	public Long getCourseCount() {
+		return courseRepository.count();
 	}
 
 }

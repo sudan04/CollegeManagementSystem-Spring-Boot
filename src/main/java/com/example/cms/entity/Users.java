@@ -6,42 +6,35 @@ import org.hibernate.annotations.CreationTimestamp;
 
 import com.example.cms.enums.Role;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
-@Entity
-@Table(name= "_user_tbl")
-public class Users {
-	@Id
-	@GeneratedValue(strategy= GenerationType.IDENTITY)
-	private Long userId;
-	
-	@Column(unique= true, nullable = false)
-	private String userName;
-	private String firstName;
-	private String lastname;
-	
-	@Column(unique= true, nullable = false)
-	private String email;
-	
-	@Enumerated(EnumType.STRING)
-	@Column(nullable = false)
-	private Role role;
-	
-	@Column(nullable = false)
-	private String password;
-	
-	@CreationTimestamp
-	private LocalDate createdOn;
-	
-	private String department;
+import jakarta.persistence.*;
 
-	
+@Entity
+@Table(name = "user_tbl")
+public class Users {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long userId;
+
+    @Column(unique = true, nullable = false)
+    private String userName;
+
+    private String firstName;
+    private String lastName;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private Role role;
+
+    @Column(nullable = false)
+    private String password;
+
+    @CreationTimestamp
+    private LocalDate createdOn;
+
 
 	public Long getUserId() {
 		return userId;
@@ -67,12 +60,12 @@ public class Users {
 		this.firstName = firstName;
 	}
 
-	public String getLastname() {
-		return lastname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setLastname(String lastname) {
-		this.lastname = lastname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
 	public String getEmail() {
@@ -107,19 +100,13 @@ public class Users {
 		this.createdOn = createdOn;
 	}
 
-	public String getDepartment() {
-		return department;
-	}
-
-	public void setDepartment(String department) {
-		this.department = department;
-	}
-
 	@Override
 	public String toString() {
-		return "User [userId=" + userId + ", userName=" + userName + ", firstName=" + firstName + ", lastname="
-				+ lastname + ", email=" + email + ", role=" + role + ", password=" + password + ", createdOn="
-				+ createdOn + ", department=" + department + "]";
+		return "Users [userId=" + userId + ", userName=" + userName + ", firstName=" + firstName + ", lastName="
+				+ lastName + ", email=" + email + ", role=" + role + ", password=" + password + ", createdOn="
+				+ createdOn + "]";
 	}
+
 	
+    
 }

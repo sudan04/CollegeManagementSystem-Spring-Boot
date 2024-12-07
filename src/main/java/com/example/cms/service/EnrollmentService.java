@@ -1,16 +1,19 @@
 package com.example.cms.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.example.cms.entity.Course;
 import com.example.cms.entity.Enrollment;
 import com.example.cms.entity.Student;
-import com.example.cms.entity.Course;
+import com.example.cms.entity.Users;
+import com.example.cms.repository.CourseRepository;
 import com.example.cms.repository.EnrollmentRepository;
 import com.example.cms.repository.StudentRepository;
-import com.example.cms.repository.CourseRepository;
+import com.example.cms.repository.UserRepository;
 
 @Service
 public class EnrollmentService {
@@ -23,6 +26,9 @@ public class EnrollmentService {
 
     @Autowired
     private CourseRepository courseRepository;
+    
+    @Autowired
+    private UserRepository userRepository;
 
     // Add new enrollment
     public Enrollment addEnrollment(Long studentId, Long courseId) throws Exception {
@@ -34,12 +40,16 @@ public class EnrollmentService {
         if (course == null) {
             throw new Exception("Course not found!");
         }
+        
+        Enrollment courseAndStudentEnrollment= enrollmentRepository.findByCourseAndStudent(course, student);
+	        if(courseAndStudentEnrollment == null) {
+	        Enrollment enrollment = new Enrollment();
+	        enrollment.setStudent(student);
+	        enrollment.setCourse(course);
+	        return enrollmentRepository.save(enrollment);
+        }
 
-        Enrollment enrollment = new Enrollment();
-        enrollment.setStudent(student);
-        enrollment.setCourse(course);
-
-        return enrollmentRepository.save(enrollment);
+        throw new Exception("Enrollment already exist by this "+ course + " and "+ student);
     }
 
     // Delete enrollment by id
@@ -92,4 +102,23 @@ public class EnrollmentService {
         }
         return enrollments;
     }
+
+    // find students enrolled in particular course
+	public List<Student> findStudentByCourseId(Long courseId) throws Exception{
+		Course course= courseRepository.findByCourseId(courseId);
+//		List<Object[]> students=  enrollmentRepository.findStudentsByCourseId(courseId);
+//		
+//		List<Student> studentList= new ArrayList<>();
+//		for(Object[] row: students) {
+//			Student st= new Student();
+//			st.setStudentId((Long) row[0]);
+//			Users user= userRepository.findByUserId((Long) row[1]);
+//			st.setUser(user);
+//			studentList.add(st);
+//		}
+		List<Student> studentList=  enrollmentRepository.findStudentsByCourseId(courseId);
+		
+		if(studentList == null) throw new Exception("No students found on: "+ course.getCourseName());
+		return studentList;
+	}
 }

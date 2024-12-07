@@ -7,6 +7,7 @@ import com.example.cms.entity.Users;
 public interface UserRepository extends JpaRepository<Users, Long>{
   public Users findByUserName(String userName);
 
+  public Users findByUserId(Long id);
 public Users findByUserId(long id);
 
 public Users findByEmail(String email);

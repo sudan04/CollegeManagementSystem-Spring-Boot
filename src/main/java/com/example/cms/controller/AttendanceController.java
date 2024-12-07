@@ -1,47 +1,69 @@
 package com.example.cms.controller;
 
-import com.example.cms.entity.Attendance;
-import com.example.cms.entity.Course;
-import com.example.cms.entity.Faculty;
-import com.example.cms.entity.Student;
-import com.example.cms.service.AttendanceService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import com.example.cms.dto.AttendanceDTO;
+import com.example.cms.entity.Attendance;
+import com.example.cms.service.AttendanceService;
+import com.example.cms.service.CourseService;
+import com.example.cms.service.EnrollmentService;
+import com.example.cms.service.StudentService;
+
 @Controller
-@RequestMapping("/attendance")
+@RequestMapping("")
 public class AttendanceController {
 
     @Autowired
     private AttendanceService attendanceService;
+    
+    @Autowired
+    private StudentService studentService;
+    
+    @Autowired 
+    private CourseService courseService;
+    
+    @Autowired
+    private EnrollmentService enrollmentService;
 
-    // Mark attendance for a student in a course
-    @PostMapping("/mark/{studentId}/{courseId}/{isPresent}")
-    public String markAttendance(@PathVariable Long studentId,
-    								@PathVariable Long courseId,
-                                  @PathVariable Long facultyId,
-                                  @PathVariable Boolean isPresent,
-                                  Model model) {
-        try {
-            Attendance attendance = attendanceService.markAttendance(studentId, courseId, isPresent);
-            model.addAttribute("successMessage", "Attendance marked successfully!");
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error marking attendance: " + e.getMessage());
+ // Mark attendance for a student in a course
+    @PostMapping("/markAttendance")
+    public String handleAttendanceSubmission(@RequestParam(name = "courseId") Long courseId,
+                                              @ModelAttribute AttendanceDTO attendanceDTO) {
+        System.out.println(attendanceDTO.getCourseId());
+        System.out.println(attendanceDTO.getAttendance()); // Logging attendance data
+
+        // Save attendance (assuming you have a service for this)
+//        attendanceService.saveAttendance(attendanceDTO);
+
+        return "redirect:/markAttendance?courseId=" + courseId;  // Redirect back with courseId
+    }
+
+
+
+    // Render the page to mark attendance for a student in a specific course
+    @GetMapping("/markAttendance")
+    public String showMarkAttendanceForm(@RequestParam(name = "courseId", required = false) Long courseId, Model model) throws Exception {
+        if (courseId != null) {
+            model.addAttribute("students", enrollmentService.findStudentByCourseId(courseId));
+            model.addAttribute("selectedCourse", courseService.findByCourseId(courseId));
         }
-        return "attendanceManagement";
+        model.addAttribute("attenDTO", new AttendanceDTO());
+        model.addAttribute("courses", courseService.fetchAllCourses());
+        model.addAttribute("content", "markAttendance");
+        return "sidebar";  // Adjusted view name
     }
-    
-    
- // Render the page to mark attendance for a student in a specific course
-    @GetMapping("/mark")
-    public String showMarkAttendanceForm() {
-        return "markattendance";  
-    }
+
 
     
   
@@ -72,17 +94,17 @@ public class AttendanceController {
         return "attendanceList";
     }
 
-    // Get all attendance records by a specific faculty
-    @GetMapping("/faculty/{facultyId}")
-    public String getAttendanceByFaculty(@PathVariable Long facultyId, Model model) {
-        try {
-            List<Attendance> attendanceList = attendanceService.getAttendanceByFaculty(facultyId);
-            model.addAttribute("attendanceList", attendanceList);
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error fetching attendance by faculty: " + e.getMessage());
-        }
-        return "attendanceList";
-    }
+//    // Get all attendance records by a specific faculty
+//    @GetMapping("/faculty/{facultyId}")
+//    public String getAttendanceByFaculty(@PathVariable Long facultyId, Model model) {
+//        try {
+//            List<Attendance> attendanceList = attendanceService.getAttendanceByFaculty(facultyId);
+//            model.addAttribute("attendanceList", attendanceList);
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Error fetching attendance by faculty: " + e.getMessage());
+//        }
+//        return "attendanceList";
+//    }
 
     
     

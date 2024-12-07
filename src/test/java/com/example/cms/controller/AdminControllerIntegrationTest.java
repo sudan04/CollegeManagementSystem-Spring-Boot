@@ -22,22 +22,23 @@ class AdminControllerIntegrationTest {
 //    private StudentRepository studentRepository;
     
     @Autowired
-    private UserController adminController;
+    private AdminController adminController;
 
     @Test
     public void createUser() throws Exception {
         Users user = new Users();
-        user.setFirstName("Sira");
-        user.setLastname("Gairey");
-        user.setDepartment("IT");
-        user.setEmail("Sudan@gmail.com");
-        user.setRole(Role.FACULTY);
-        user.setUserName("sudan911");
+        user.setFirstName("Sudan");
+        user.setLastName("Bhusal");
+        user.setEmail("sudan1@gmail.com");
+        user.setRole(Role.ADMIN);
+        user.setUserName("sudan1");
         user.setPassword("sudan123");
-        
+       
         Model model = new ExtendedModelMap();
        adminController.createUser(user, model);
     }
-      
+    
+    
+    
     
 }

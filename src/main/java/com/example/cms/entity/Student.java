@@ -4,6 +4,7 @@ import java.time.LocalDate;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,7 +18,7 @@ public class Student {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long studentId;
 
-    @OneToOne
+    @OneToOne(cascade= CascadeType.ALL)
     @JoinColumn(name = "user_id", 
     			referencedColumnName= "userId",
     			unique = true,

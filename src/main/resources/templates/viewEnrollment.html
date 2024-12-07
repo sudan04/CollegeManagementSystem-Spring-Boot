@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enrollment Search</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
+  <style>
+    .dropdown-menu {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .dropdown-item.disabled {
+      pointer-events: none;
+      color: #6c757d;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background-color: #f8f9fa;
+      z-index: 1;
+    }
+
+    #enrollmentTable {
+      max-height: 400px;
+      overflow-y: auto;
+      display: block;
+    }
+
+    #enrollmentTable table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #enrollmentTable th, #enrollmentTable td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    table th, table td {
+      padding: 12px 15px;
+    }
+
+    body {
+      margin-top: -50px;
+      padding-top: 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container mt-5">
+    <h1>View Enrollments</h1>
+
+    <!-- Filters -->
+    <form id="filterForm" class="mb-4">
+      <div class="row">
+        <!-- Student Filter -->
+        <div class="col-md-6">
+          <label for="studentSearch" class="form-label">Search by Student</label>
+          <input type="text" id="studentSearch" class="form-control" placeholder="Enter Student Name">
+        </div>
+
+        <!-- Course Filter -->
+        <div class="col-md-6">
+          <label for="courseFilter" class="form-label">Filter by Course</label>
+          <select id="courseFilter" name="courseId" class="form-select">
+            <option value="">All Courses</option>
+            <!-- Dynamic course options populated by Thymeleaf -->
+            <option th:each="course : ${courses}" th:value="${course.courseId}" th:text="${course.courseName}"></option>
+          </select>
+        </div>
+      </div>
+    </form>
+
+    <!-- Enrollment List -->
+    <div id="enrollmentTable">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Enrollment ID</th>
+            <th>Student Name</th>
+            <th>Student Email</th>
+            <th>Course Name</th>
+            <th>Enrollment Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Thymeleaf will populate this -->
+          <tr th:each="enroll: ${enrollments}">
+            <td th:text="${enroll.enrollmentId}"></td>
+            <td th:text="${enroll.student.user.firstName} + ' ' + ${enroll.student.user.lastName}"></td>
+            <td th:text="${enroll.student.user.email}"></td>
+            <td th:text="${enroll.course.courseName}" th:attr="data-course-id=${enroll.course.courseId}"></td>
+            <td th:text="${enroll.enrollmentDate}"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    const studentSearchInput = document.getElementById('studentSearch');
+    const courseFilter = document.getElementById('courseFilter');
+    const enrollmentTable = document.getElementById('enrollmentTable').querySelector('tbody');
+
+    // Function to filter enrollments based on student name and course
+    function filterEnrollments() {
+      const studentQuery = studentSearchInput.value.trim().toLowerCase();
+      const selectedCourse = courseFilter.value;
+
+      const rows = enrollmentTable.querySelectorAll('tr');
+      rows.forEach(row => {
+        const studentName = row.children[1]?.innerText.trim().toLowerCase();
+        const courseId = row.children[3]?.getAttribute('data-course-id');
+
+        const matchesStudent = !studentQuery || studentName.includes(studentQuery);
+        const matchesCourse = !selectedCourse || courseId === selectedCourse;
+
+        if (matchesStudent && matchesCourse) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    }
+
+    // Event listeners for real-time filtering
+    studentSearchInput.addEventListener('input', filterEnrollments);
+    courseFilter.addEventListener('change', filterEnrollments);
+  </script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
