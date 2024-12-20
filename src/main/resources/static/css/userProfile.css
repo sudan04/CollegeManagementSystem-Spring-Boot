@@ -1,0 +1,59 @@
+body {
+            font-family: 'Roboto', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #f4f7fa;
+            color: #333;
+        }
+
+        .profile-container {
+            margin: 50px auto;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+            padding: 30px 40px;
+            max-width: 600px;
+        }
+
+        .profile-container h1 {
+            text-align: center;
+            margin-bottom: 25px;
+            color: #007bff;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .profile-container p {
+            font-size: 16px;
+            margin: 12px 0;
+            line-height: 1.6;
+            border-bottom: 1px solid #f0f0f0;
+            padding-bottom: 8px;
+        }
+
+        .profile-container p strong {
+            color: #343a40;
+            display: inline-block;
+            width: 150px; /* Fixed width for labels */
+        }
+
+        .profile-container span {
+            color: #555;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .profile-container {
+                padding: 20px 25px;
+            }
+
+            .profile-container h1 {
+                font-size: 24px;
+            }
+
+            .profile-container p strong {
+                width: 100%; /* Adjust label width for smaller screens */
+                display: block;
+                margin-bottom: 4px;
+            }
+        }

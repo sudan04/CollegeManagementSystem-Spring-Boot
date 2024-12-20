@@ -29,9 +29,7 @@ public class DepartmentService {
 	// create new department
 	public Department createDepartment(DepartmentDTO departmentDTO) {
 		Department department= departmentDTOMapper.toEntity(departmentDTO);
-		System.out.println(departmentDTO.getDepartmentHead());
 		Faculty headOfDepartment= facultyRepository.findByFacultyId(departmentDTO.getDepartmentHead());
-		System.out.println(headOfDepartment);
 		department.setHeadOfDepartment(headOfDepartment);
 		return departmentRepository.save(department);
 	}

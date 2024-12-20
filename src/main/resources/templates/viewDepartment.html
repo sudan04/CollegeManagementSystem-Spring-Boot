@@ -4,78 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>View Departments</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f4f4f9;
-            color: #333;
-        }
-        h1 {
-            text-align: center;
-            color: #444;
-        }
-        /* Table Styles */
-        .table-container {
-            width: 80%;
-            margin: 2rem auto;
-            background: #fff;
-            padding: 1rem;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            border-radius: 5px;
-        }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 1rem;
-        }
-        table th, table td {
-            text-align: left;
-            padding: 0.8rem;
-            border: 1px solid #ddd;
-        }
-        table th {
-            background-color: #f8f9fa;
-            font-weight: bold;
-        }
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-        input[type="text"] {
-            width: 100%;
-            padding: 0.5rem;
-            margin-bottom: 1rem;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-        /* Action Buttons */
-        a {
-            color: #007bff;
-            text-decoration: none;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        .action-buttons a {
-            margin-right: 0.5rem;
-        }
-        .action-buttons .delete {
-            color: #dc3545;
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/viewDepartment.css}">
+   
 </head>
 <body>
     <div class="table-container">
         <h1>Departments</h1>
-        <input type="text" id="departmentSearch" placeholder="Search by name or code" oninput="filterDepartments()">
+        <input type="text" id="departmentSearch" placeholder="Search by name" aria-label="Search departments" oninput="filterDepartments()">
         
         <table id="departmentTable">
             <thead>
                 <tr>
                     <th>S.N</th>
-                    <th>Department Name</th>
+                    <th onclick="sortTable(1)">Department Name</th>
                     <th>Department Description</th>
                     <th>HOD</th>
                     <th>Actions</th>
@@ -85,9 +26,10 @@
                 <tr th:each="department, iterStat : ${departments}">
                     <td th:text="${iterStat.count}"></td>
                     <td th:text="${department.name}" class="department-name"></td>
-                    <td th:text="${department.description}" class="department-description"></td>
-                    <td th:if="${department.headOfDepartment != null}" th:text="${department.headOfDepartment.user.firstName + ' ' + department.headOfDepartment.user.lastName}"></td>
-                    <td th:if="${department.headOfDepartment == null}" th:text="'No HOD assigned'"></td>
+                    <td th:text="${department.description}"></td>
+                    <td th:if="${department.headOfDepartment != null}" 
+                        th:text="${department.headOfDepartment.user.firstName + ' ' + department.headOfDepartment.user.lastName}"></td>
+                    <td th:if="${department.headOfDepartment == null}" class="no-hod">No HOD assigned</td>
                     <td class="action-buttons">
                         <a th:href="@{/admin/saveDepartment(id=${department.departmentId})}">Update</a>
                         <a th:href="@{/admin/deleteById(departmentId=${department.departmentId})}" 
@@ -106,18 +48,29 @@
 
             tableRows.forEach(row => {
                 const nameCell = row.querySelector('.department-name');
-                const codeCell = row.querySelector('.department-code');
 
-                // Check if the search value matches the name or code
-                const nameMatches = nameCell.textContent.toLowerCase().includes(searchValue);
-                const codeMatches = codeCell.textContent.toLowerCase().includes(searchValue);
-
-                if (nameMatches || codeMatches) {
+                if (nameCell && nameCell.textContent.toLowerCase().includes(searchValue)) {
                     row.style.display = ''; // Show the row
                 } else {
                     row.style.display = 'none'; // Hide the row
                 }
             });
+        }
+
+        function sortTable(columnIndex) {
+            const table = document.getElementById("departmentTable");
+            const rows = Array.from(table.tBodies[0].rows);
+            const isAscending = table.dataset.sortOrder !== "asc";
+
+            rows.sort((a, b) => {
+                const aText = a.cells[columnIndex].textContent.trim();
+                const bText = b.cells[columnIndex].textContent.trim();
+
+                return isAscending ? aText.localeCompare(bText) : bText.localeCompare(aText);
+            });
+
+            table.tBodies[0].append(...rows);
+            table.dataset.sortOrder = isAscending ? "asc" : "desc";
         }
     </script>
 </body>

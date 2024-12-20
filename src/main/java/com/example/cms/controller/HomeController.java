@@ -45,8 +45,9 @@ public class HomeController {
         // Fetch the user details from the database
         Users user = userRepository.findByUserName(username);
         model.addAttribute("user", user);
+        model.addAttribute("content", "userProfile");
 
-        return "user"; // Ensure this matches the Thymeleaf template name
+        return "sidebar"; // Ensure this matches the Thymeleaf template name
     }
     
 }

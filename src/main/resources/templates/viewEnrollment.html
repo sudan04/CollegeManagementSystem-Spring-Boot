@@ -5,49 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Enrollment Search</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/css/bootstrap.min.css">
-  <style>
-    .dropdown-menu {
-      max-height: 200px;
-      overflow-y: auto;
-    }
-
-    .dropdown-item.disabled {
-      pointer-events: none;
-      color: #6c757d;
-    }
-
-    thead th {
-      position: sticky;
-      top: 0;
-      background-color: #f8f9fa;
-      z-index: 1;
-    }
-
-    #enrollmentTable {
-      max-height: 400px;
-      overflow-y: auto;
-      display: block;
-    }
-
-    #enrollmentTable table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    #enrollmentTable th, #enrollmentTable td {
-      text-align: left;
-      padding: 8px;
-    }
-
-    table th, table td {
-      padding: 12px 15px;
-    }
-
-    body {
-      margin-top: -50px;
-      padding-top: 0;
-    }
-  </style>
+  <link rel="stylesheet" th:href="@{/css/viewEnrollment.css}">
 </head>
 <body>
   <div class="container mt-5">

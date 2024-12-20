@@ -104,13 +104,11 @@ public class CourseService {
 
     public HashMap<String, Integer> getMostPopularCourses(int topN) {
         List<Object[]> results = enrollmentRepository.getMostPopularCourses(topN);
-        System.out.println("results--------"+results);
         HashMap<String, Integer> studentEnrollment = new HashMap<>();
 
         for (Object[] result : results) {
             String courseName = (String) result[0];
             Integer enrollmentCount = ((Number) result[1]).intValue();
-            System.out.println(courseName+"    .     ."+enrollmentCount);
             studentEnrollment.put(courseName, enrollmentCount);
         }
 

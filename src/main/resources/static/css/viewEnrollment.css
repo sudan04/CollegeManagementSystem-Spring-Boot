@@ -1,0 +1,41 @@
+.dropdown-menu {
+      max-height: 200px;
+      overflow-y: auto;
+    }
+
+    .dropdown-item.disabled {
+      pointer-events: none;
+      color: #6c757d;
+    }
+
+    thead th {
+      position: sticky;
+      top: 0;
+      background-color: #f8f9fa;
+      z-index: 1;
+    }
+
+    #enrollmentTable {
+      max-height: 400px;
+      overflow-y: auto;
+      display: block;
+    }
+
+    #enrollmentTable table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    #enrollmentTable th, #enrollmentTable td {
+      text-align: left;
+      padding: 8px;
+    }
+
+    table th, table td {
+      padding: 12px 15px;
+    }
+
+    body {
+      margin-top: -50px;
+      padding-top: 0;
+    }

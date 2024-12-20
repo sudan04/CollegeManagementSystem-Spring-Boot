@@ -3,160 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Static Sidebar with Click Dropdown</title>
+  <title>Admin Dashboard</title>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <style>
-    /* General Styling */
-    body {
-      display: flex;
-      margin: 0;
-      font-family: Arial, sans-serif;
-    }
-
-    .sidebar {
-      width: 250px;
-      height: 100vh;
-      background-color: #343a40;
-      color: #fff;
-      position: fixed;
-      top: 0;
-      left: 0;
-      padding-top: 20px;
-      z-index: 100;
-      transition: width 0.3s ease;
-    }
-
-    /* Centering CMS title */
-    .sidebar h3 {
-      text-align: center;
-      margin: 0;
-      padding: 20px;
-      font-size: 24px;
-      font-weight: bold;
-    }
-
-    .sidebar a {
-      color: #fff;
-      text-decoration: none;
-      padding: 10px 20px;
-      display: block;
-      font-size: 16px;
-      line-height: 24px;
-    }
-
-    .sidebar a:hover {
-      background-color: #495057;
-    }
-
-    /* Aligning Home text with same level as others */
-    .sidebar a.home {
-      padding-left: 20px; /* Ensures Home item aligns with other menu items */
-    }
-
-    /* Dropdown Menu */
-    .sidebar .dropdown {
-      position: relative;
-    }
-
-    .sidebar .dropdown a {
-      display: flex;
-      align-items: center;
-      padding: 10px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-    }
-
-    .sidebar .dropdown a:hover {
-      background-color: #495057;
-    }
-
-    .sidebar .dropdown-menu {
-      display: none;
-      background-color: #343a40;
-      list-style-type: none;
-      padding: 0;
-      margin: 0;
-      position: absolute;
-      top: 0;
-      left: 100%; /* Align dropdown to the right */
-      width: 200px;
-    }
-
-    .sidebar .dropdown-menu li a {
-      padding-left: 40px;
-      color: #fff;
-      padding: 10px;
-      text-decoration: none;
-      display: block;
-    }
-
-    .sidebar .dropdown-menu li a:hover {
-      background-color: #495057;
-    }
-
-    /* Show dropdown when clicked */
-    .sidebar .dropdown.active .dropdown-menu {
-      display: block;
-    }
-
-    /* Active state for the dropdown to change background color */
-    .sidebar .dropdown.active > a {
-      background-color: #495057;
-    }
-
-    /* Main Content Area */
-    .main-content {
-      margin-left: 250px;
-      padding: 20px;
-      width: calc(100% - 250px);
-      transition: margin-left 0.3s ease;
-    }
-
-    /* Responsive Sidebar */
-    @media (max-width: 768px) {
-      .sidebar {
-        width: 200px;
-      }
-
-      .main-content {
-        margin-left: 200px;
-      }
-    }
-
-    @media (max-width: 480px) {
-      .sidebar {
-        width: 100%;
-        position: relative;
-      }
-
-      .main-content {
-        margin-left: 0;
-      }
-    }
-
-    /* Aligning icons and text */
-    .sidebar .dropdown a i {
-      margin-right: 15px; /* Adds space between the icon and text */
-      width: 20px; /* Ensures icon and text are aligned properly */
-    }
-
-    .sidebar .dropdown-menu li a {
-      padding-left: 30px; /* Adds space to align with the text correctly */
-    }
-
-    /* Adds gap between the text and the down arrow icon */
-    .sidebar .dropdown a .fas.fa-chevron-down {
-      margin-left: 10px; /* Adds space between the text and down arrow */
-    }
-
-  </style>
+ <link rel="stylesheet" th:href="@{/css/sidebar.css}">
 </head>
 <body>
 
   <!-- Sidebar -->
   <div class="sidebar">
-    <h3>CMS</h3>
+	 <div class="sidebar-header">
+	    <img src="/images/CMS-logo.png" alt="CMS Logo">
+	    <h3>CMS</h3>
+	  </div>
     <a th:href="@{/admin/adminHomeData}" class="home"><i class="fas fa-home"></i>&nbsp;&nbsp;&nbsp; Home</a>
     
     <!-- Dropdown for Enrollment -->
@@ -195,7 +53,7 @@
       </ul>
     </div>
 
-    <!-- New Dropdown for User Management -->
+    <!-- Dropdown for User Management -->
     <div class="dropdown">
       <a href="javascript:void(0)"><i class="fas fa-users"></i> User Management <i class="fas fa-chevron-down"></i></a>
       <ul class="dropdown-menu">
@@ -204,13 +62,16 @@
       </ul>
     </div>
 
+    <!-- View Profile -->
+    <a th:href="@{/userProfile}"><i class="fas fa-user-circle"></i> View Profile</a>
+
     <a href="/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">	
     <div id="dynamicContent">
-     <div th:replace="${content}">
+      <div th:replace="${content}">
     </div>
   </div>
 

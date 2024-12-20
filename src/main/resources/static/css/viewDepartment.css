@@ -1,0 +1,74 @@
+:root {
+            --primary-color: #007bff;
+            --danger-color: #dc3545;
+            --background-color: #f4f4f9;
+            --text-color: #333;
+            --table-header-bg: #f8f9fa;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--background-color);
+            color: var(--text-color);
+        }
+        h1 {
+            text-align: center;
+            color: var(--text-color);
+        }
+        /* Table Styles */
+        .table-container {
+            width: 80%;
+            margin: 2rem auto;
+            background: #fff;
+            padding: 1rem;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+        table th, table td {
+            text-align: left;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+        }
+        table th {
+            background-color: var(--table-header-bg);
+            font-weight: bold;
+            cursor: pointer;
+        }
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        input[type="text"] {
+            width: 50%;
+            padding: 0.5rem;
+            margin-bottom: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .action-buttons a {
+            margin-right: 0.5rem;
+        }
+        .action-buttons .delete {
+            color: var(--danger-color);
+        }
+        .no-hod {
+            color: #888;
+            font-style: italic;
+        }
+        /* Scrollable Table Body */
+        tbody {
+            display: block;
+            max-height: 300px; /* Set your desired max height */
+            overflow-y: auto; /* Enable vertical scrolling */
+            overflow-x: hidden; /* Disable horizontal scrolling */
+        }
+        thead, tr {
+            display: table;
+            width: 100%;
+            table-layout: fixed; /* Maintain table layout */
+        }

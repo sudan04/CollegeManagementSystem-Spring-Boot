@@ -1,0 +1,133 @@
+ /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    
+    /* Body Background */
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-image: url("/images/loginBgImg.avif");
+      
+      background-size: cover;
+      background-position: center;
+    }
+    
+    /* Form Container */
+    .form-container {
+      width: 400px;
+      background: rgb(64, 0, 64);
+      opacity: 0.7;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      text-align: center;
+      color: #fff;
+    }
+    
+    /* Logo */
+    .logo img {
+      max-width: 80px;
+      margin: 0 auto 15px auto;
+      display: block;
+    }
+    
+    /* Form Header */
+    .form-header h2 {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+    }
+    
+    /* Input Box */
+    .input-box {
+      position: relative;
+      margin-bottom: 20px;
+      text-align: left;
+    }
+    .input-box input {
+      width: 100%;
+      padding: 10px 40px 10px 15px;
+      border: none;
+      border-radius: 20px;
+      background: rgba(255, 255, 255, 0.3);
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    .input-box input::placeholder {
+      color: #fff;
+    }
+    .input-box i {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #fff;
+      font-size: 18px;
+    }
+    
+    /* Label Styling */
+    label {
+      font-size: 14px;
+      font-weight: bold;
+      margin-bottom: 5px;
+      display: block;
+      text-align: left;
+      margin-left: 5px;
+    }
+
+    /* Forgot Password Link */
+    .forgot-password {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .forgot-password a {
+      color: #fff;
+      font-size: 14px;
+      text-decoration: none;
+    }
+    .forgot-password a:hover {
+      text-decoration: underline;
+    }
+    
+    img{
+		height: 50px;
+		width: 50px;
+		border-radius: 50%;
+	}
+    
+    /* Submit Button */
+    .btn {
+      width: 100%;
+      padding: 10px;
+      border: none;
+      border-radius: 20px;
+      background: #fff;
+      color: #333;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 16px;
+      transition: background 0.3s ease;
+    }
+    .btn:hover {
+      background: #ccc;
+    }
+    
+    /* Error and Success Messages */
+    .message {
+      margin-top: 15px;
+      font-size: 14px;
+    }
+    .message.error {
+      color: #f44336;
+    }
+    .message.success {
+      color: #4caf50;
+    }

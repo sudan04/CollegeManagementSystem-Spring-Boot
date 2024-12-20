@@ -1,0 +1,83 @@
+  body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      margin-top: -30px;
+      background-color: skyblue;
+    }
+    
+    h1{
+        margin-left: 10px;
+        font-family: fantasy;
+        background-color: rgb(0, 0, 64);
+        width: 300px;
+        color: bisque;
+        padding-left: 5px;
+        border-radius: 10px;
+    }
+
+    .content-wrapper {
+      margin-left: 250px;
+      width: calc(100% - 250px);
+    }
+
+    .main-content {
+      margin-left: 0;
+      flex: 1;
+      padding: 20px;
+    }
+
+    .dashboard-info {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 40px;
+      margin-left: 12px;
+      gap: 50px;
+    }
+
+    .dashboard-card {
+      background-color: #6c757d; /* Slightly lighter background color */
+      padding: 20px;
+      border-radius: 8px;
+      width: 200px;
+      text-align: center;
+      color: #fff;
+      font-size: 18px;
+      box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Enhanced shadow effect */
+      transition: transform 0.2s, box-shadow 0.2s; /* Smooth hover effect */
+      margin-left: -5px;
+      margin-top: 20px;
+    }
+
+    .dashboard-card h4 {
+      font-size: 24px;
+      margin: 10px 0;
+    }
+
+    /* Hover effect for cards */
+    .dashboard-card:hover {
+      transform: translateY(-5px); /* Slight upward movement on hover */
+      box-shadow: 0 8px 15px rgba(0, 0, 0, 0.25); /* Deeper shadow on hover */
+      background-color: #5a6268; /* Slightly darker background on hover */
+    }
+
+    .chart-container {
+      display: flex;
+      justify-content: space-around;
+      margin-top: 30px;
+    }
+
+    .chart {
+      width: 45%;
+      height: 150px; /* Increased height */
+      position: relative;
+      background-color: rgb(255, 255, 255);
+      border-radius: 10px;
+      margin-left: 5px;
+    }
+
+    /* Shadow effect for the chart */
+    .chart canvas {
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15); /* Adding shadow to the chart */
+    }

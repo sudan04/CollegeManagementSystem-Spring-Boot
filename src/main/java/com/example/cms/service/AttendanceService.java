@@ -1,18 +1,20 @@
 package com.example.cms.service;
 
+import java.time.LocalDate;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.example.cms.dto.AttendanceDTO;
 import com.example.cms.entity.Attendance;
 import com.example.cms.entity.Course;
-import com.example.cms.entity.Faculty;
 import com.example.cms.entity.Student;
 import com.example.cms.repository.AttendanceRepository;
 import com.example.cms.repository.CourseRepository;
 import com.example.cms.repository.FacultyRepository;
 import com.example.cms.repository.StudentRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Service
 public class AttendanceService {
@@ -29,19 +31,7 @@ public class AttendanceService {
     @Autowired
     private FacultyRepository facultyRepository;
 
-    // Mark attendance
-    public Attendance markAttendance(Long studentId, Long courseId, Boolean isPresent) throws Exception {
-        Student student = studentRepository.findByStudentId(studentId);
-               
-        Course course = courseRepository.findByCourseId(courseId);
-
-        Attendance attendance = new Attendance();
-        attendance.setStudent(student);
-        attendance.setCourse(course);
-        attendance.setIsPresent(isPresent);
-
-        return attendanceRepository.save(attendance);
-    }
+   
 
     // Get all attendance records for a specific course
     public List<Attendance> getAttendanceByCourse(Long courseId) throws Exception {
@@ -68,4 +58,30 @@ public class AttendanceService {
         
         return attendanceRepository.findByStudentAndCourseAndDate(student, course, date);
     }
+
+    // save attendance
+	public void saveAttendance(AttendanceDTO attendanceDTO) throws Exception {
+		Course course = courseRepository.findByCourseId(attendanceDTO.getCourseId());
+		Map<Long, String> attendance= attendanceDTO.getAttendance();
+		
+		
+		List<Attendance> atdList= attendanceRepository.findByCourseAndDate(course, LocalDate.now());
+		
+		if(atdList != null && !atdList.isEmpty()) {
+			throw new Exception("Attendance is already marked for Course "+ course.getCourseName()+" for today");
+		}
+		
+		for(Map.Entry<Long, String> entry : attendance.entrySet()) {
+			System.out.println(entry);
+			Student student= studentRepository.findByStudentId(entry.getKey());
+			Boolean status= "P".equals(entry.getValue())? true: false;
+			
+			Attendance atd= new Attendance();
+			atd.setCourse(course);
+			atd.setStudent(student);
+			atd.setIsPresent(status);
+			
+			attendanceRepository.save(atd);
+		}
+	}
 }

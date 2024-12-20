@@ -1,0 +1,163 @@
+  /* General Styling */
+    body {
+      display: flex;
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    .sidebar {
+      width: 250px;
+      height: 100vh;
+      background-color: #343a40;
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      padding-top: 20px;
+      z-index: 100;
+      transition: width 0.3s ease;
+    }
+
+    /* Centering CMS title */
+    .sidebar h3 {
+      text-align: center;
+      margin: 0;
+      padding: 20px;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+    .sidebar a {
+      color: #fff;
+      text-decoration: none;
+      padding: 10px 20px;
+      display: block;
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .sidebar a:hover {
+      background-color: #495057;
+    }
+
+    /* Aligning Home text with same level as others */
+    .sidebar a.home {
+      padding-left: 20px;
+    }
+
+    /* Dropdown Menu */
+    .sidebar .dropdown {
+      position: relative;
+    }
+
+    .sidebar .dropdown a {
+      display: flex;
+      align-items: center;
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    .sidebar .dropdown a:hover {
+      background-color: #495057;
+    }
+
+    .sidebar .dropdown-menu {
+      display: none;
+      background-color: #343a40;
+      list-style-type: none;
+      padding: 0;
+      margin: 0;
+      position: absolute;
+      top: 0;
+      left: 100%;
+      width: 200px;
+    }
+
+    .sidebar .dropdown-menu li a {
+      padding-left: 40px;
+      color: #fff;
+      padding: 10px;
+      text-decoration: none;
+      display: block;
+    }
+
+    .sidebar .dropdown-menu li a:hover {
+      background-color: #495057;
+    }
+
+    /* Show dropdown when clicked */
+    .sidebar .dropdown.active .dropdown-menu {
+      display: block;
+    }
+
+    /* Active state for the dropdown to change background color */
+    .sidebar .dropdown.active > a {
+      background-color: #495057;
+    }
+
+    /* Main Content Area */
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+      width: calc(100% - 250px);
+      transition: margin-left 0.3s ease;
+    }
+
+    /* Responsive Sidebar */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .main-content {
+        margin-left: 200px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .sidebar {
+        width: 100%;
+        position: relative;
+      }
+
+      .main-content {
+        margin-left: 0;
+      }
+    }
+
+    /* Aligning icons and text */
+    .sidebar .dropdown a i {
+      margin-right: 15px;
+      width: 20px;
+    }
+
+    .sidebar .dropdown-menu li a {
+      padding-left: 30px;
+    }
+
+    .sidebar .dropdown a .fas.fa-chevron-down {
+      margin-left: 10px;
+    }
+    
+    .sidebar-header {
+	  display: flex;
+	  align-items: center;
+	  justify-content: center; /* Center both image and text horizontally */
+	  padding: 10px 20px;
+	  margin-right: 60px;
+	}
+	
+	.sidebar-header img {
+	  height: 50px;
+	  width: 50px;
+	  border-radius: 50%;
+	  margin-right: 10px; /* Add space between the image and the text */
+	}
+	
+	.sidebar-header h3 {
+	  margin: 0;
+	  font-size: 24px;
+	  font-weight: bold;
+	}

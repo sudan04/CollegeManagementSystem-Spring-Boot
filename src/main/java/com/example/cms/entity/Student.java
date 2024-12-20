@@ -1,6 +1,7 @@
 package com.example.cms.entity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import org.hibernate.annotations.CreationTimestamp;
 
@@ -10,6 +11,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 
 @Entity
@@ -30,6 +32,9 @@ public class Student {
     @CreationTimestamp
     private LocalDate enrollmentDate;
     private String program;
+    
+    @OneToMany(mappedBy= "student", cascade= CascadeType.REMOVE)
+    private List<Attendance> attendance;
      
 	public Long getStudentId() {
 		return studentId;

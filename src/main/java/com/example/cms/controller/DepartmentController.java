@@ -59,7 +59,7 @@ public class DepartmentController {
       if (id != null) {
           department = departmentService.findDepartmentById(id);
       } else {
-          department = new Department();
+          department = null;
       }
       model.addAttribute("faculties", facultyService.fetchAllFaculty());
       model.addAttribute("department", department);

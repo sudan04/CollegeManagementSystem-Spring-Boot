@@ -3,61 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title th:text="${department != null} ? 'Update Department' : 'Add Department'">Add/Update Department</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 20px;
-        }
-
-        .form-container {
-            max-width: 600px;
-            margin: auto;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        form label {
-            display: block;
-            margin: 10px 0 5px;
-            font-weight: bold;
-        }
-
-        form input, form select, form textarea, form button {
-            width: 100%;
-            padding: 10px;
-            margin-bottom: 15px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        form button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        form button:hover {
-            background-color: #45a049;
-        }
-
-        .filter-input {
-            margin-bottom: 10px;
-            width: 100%;
-            padding: 8px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-    </style>
+    <title th:text="${department != null ? 'Update Department' : 'Create Department'}"></title>
+   	
+   	<link rel="stylesheet" th:href="@{/css/addDepartment.css}">
 </head>
 <body>
     <div class="form-container">

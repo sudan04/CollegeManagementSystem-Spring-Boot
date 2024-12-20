@@ -18,7 +18,7 @@ public class Attendance {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long attendanceId;
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(
     		name = "student_id",
     		referencedColumnName= "studentId"
@@ -26,7 +26,7 @@ public class Attendance {
     private Student student;
 
 
-    @ManyToOne(cascade= CascadeType.ALL)
+    @ManyToOne
     @JoinColumn(
     		name = "course_id",
     		referencedColumnName= "courseId"

@@ -1,98 +1,98 @@
 * {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 
 body {
-  font-family: Arial, sans-serif;
-  background-color: #f4f4f4;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  background-image: url("../images/registrationBgImg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  margin-left: 250px;
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-image: url("/images/registrationBgImg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    margin-left: 250px;
 }
 
 .container {
-  background-color: rgba(0, 255, 255, 0.8); 
-  padding: 40px;
-  border-radius: 8px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
-  width: 400px;
-  color: rgb(0, 0, 0); 
-  opacity: 0.7
+    background-color: rgba(0, 255, 255, 0.8); 
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 
+    width: 400px;
+    color: rgb(0, 0, 0); 
+    opacity: 0.7;
 }
 
 .role {
-  color: #333333;
+    color: #333333;
 }
 
 .input-group {
-  margin-bottom: 15px;
+    margin-bottom: 15px;
 }
 
 .label {
-  display: inline-block;
-  width: 120px;
-  font-weight: bold;
-  margin-bottom: 5px;
-  color: rgb(0, 0, 0); 
+    display: inline-block;
+    width: 120px;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: rgb(0, 0, 0); 
 }
 
 .input {
-  display: inline-block;
-  width: calc(100% - 130px); 
-  position: relative;
-  margin-top: 10px;
+    display: inline-block;
+    width: calc(100% - 130px); 
+    position: relative;
+    margin-top: 10px;
 }
 
 input[type="text"],
 input[type="email"],
 input[type="password"],
 select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #dcdcdc; 
-  border-radius: 4px;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #dcdcdc; 
+    border-radius: 4px;
 }
 
 button {
-  width: 50%;
-  padding: 10px;
-  background-color: #007bff; 
-  color: #ffffff; 
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
+    width: 50%;
+    padding: 10px;
+    background-color: #007bff; 
+    color: #ffffff; 
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
 }
 
 button:hover {
-  background-color: #0056b3; 
+    background-color: #0056b3; 
 }
 
 #password {
-  padding-right: 30px; 
+    padding-right: 30px; 
 }
 
 .toggle-password {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  cursor: pointer;
-  color: #333333; 
-  font-size: 20px;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #333333; 
+    font-size: 20px;
 }
 
-.page-header{
-	margin-top: -25px;
-	margin-left: 45px;
-	color: rgb(64, 0, 64);
+.page-header {
+    margin-top: -25px;
+    margin-left: 45px;
+    color: rgb(64, 0, 64);
 }

@@ -16,6 +16,7 @@ import com.example.cms.dtoEntityMapper.UserDTOMapper;
 import com.example.cms.entity.Users;
 import com.example.cms.enums.Role;
 import com.example.cms.service.CourseService;
+import com.example.cms.service.DepartmentService;
 import com.example.cms.service.FacultyService;
 import com.example.cms.service.StudentService;
 import com.example.cms.service.UserService;
@@ -38,10 +39,14 @@ public class AdminController {
     
     @Autowired 
     private CourseService courseService;
+    
+    @Autowired
+    private DepartmentService departmentService;
 
     //get user register form
     @GetMapping("/createUser")
-    public String createUser(Model model) {
+    public String createUser(Model model) throws Exception {
+    	model.addAttribute("departments", departmentService.fetchAllDepartments());
     	model.addAttribute("content", "register");
     	return "sidebar";
     }
@@ -161,7 +166,6 @@ public class AdminController {
     	Long totalFaculies= facultyService.getFacultyCount();
     	Long totalCourses= courseService.getCourseCount();
     	HashMap<String,Integer> studentEnrollment= courseService.getMostPopularCourses(3);
-    	System.out.println("  ....   " +studentEnrollment);
     	model.addAttribute("topNCourse", studentEnrollment);
     	
     	model.addAttribute("studentCount", totalStudents);

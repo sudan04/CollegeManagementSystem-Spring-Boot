@@ -6,14 +6,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 import com.example.cms.service.MyUserDetailsService;
 
 @Configuration
-@EnableWebSecurity
 public class AuthConfig {
 
     @Autowired
@@ -24,7 +22,7 @@ public class AuthConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/login").permitAll()
+                .requestMatchers("/login", "/images/**", "/css/**", "/js/**").permitAll() // Allow static resources
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/faculty/**").hasAuthority("ROLE_FACULTY")
                 .requestMatchers("/student/**").hasAuthority("ROLE_STUDENT")
@@ -36,9 +34,9 @@ public class AuthConfig {
                     if (role.equals("ROLE_ADMIN")) {
                         response.sendRedirect("/admin/adminHomeData");
                     } else if (role.equals("ROLE_FACULTY")) {
-                        response.sendRedirect("/faculty/home");
+                        response.sendRedirect("/userProfile");
                     } else if (role.equals("ROLE_STUDENT")) {
-                        response.sendRedirect("/student/home");
+                        response.sendRedirect("/userProfile");
                     }
                 })
                 .failureUrl("/login?error=true")

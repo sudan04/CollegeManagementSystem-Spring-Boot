@@ -1,5 +1,7 @@
 package com.example.cms.entity;
 
+import java.util.List;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -7,8 +9,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.Lob;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Course {
@@ -29,6 +31,11 @@ public class Course {
     @JoinColumn(name = "faculty_id", referencedColumnName = "facultyId")
     private Faculty faculty;
    
+    @OneToMany(mappedBy= "course", cascade= CascadeType.REMOVE)
+    private List<Attendance> attendance;
+    
+    @OneToMany(mappedBy= "course", cascade= CascadeType.REMOVE)
+    private List<Enrollment> enrollment;
     
     private String courseMaterial;
     

@@ -19,4 +19,6 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
 
     // Find attendance by student, course, and date
     List<Attendance> findByStudentAndCourseAndDate(Student student, Course course, LocalDate date);
+
+	List<Attendance> findByCourseAndDate(Course course, LocalDate now);
 }

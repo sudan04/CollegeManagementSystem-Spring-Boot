@@ -35,18 +35,25 @@ public class AttendanceController {
     
     @Autowired
     private EnrollmentService enrollmentService;
+    
+    
+    private String errMessage;
 
  // Mark attendance for a student in a course
     @PostMapping("/markAttendance")
-    public String handleAttendanceSubmission(@RequestParam(name = "courseId") Long courseId,
-                                              @ModelAttribute AttendanceDTO attendanceDTO) {
-        System.out.println(attendanceDTO.getCourseId());
-        System.out.println(attendanceDTO.getAttendance()); // Logging attendance data
+    public String handleAttendanceSubmission( @ModelAttribute AttendanceDTO attendanceDTO, Model model) {
 
         // Save attendance (assuming you have a service for this)
-//        attendanceService.saveAttendance(attendanceDTO);
+    	try {
+         attendanceService.saveAttendance(attendanceDTO);
+    	}catch(Exception e) {
+//    		model.addAttribute("errMessage", e.getMessage());
+    		errMessage= e.getMessage();
+    		return "redirect:/markAttendance?courseId=" + attendanceDTO.getCourseId();
+    	}
+    	
 
-        return "redirect:/markAttendance?courseId=" + courseId;  // Redirect back with courseId
+        return "redirect:/admin/adminHomeData";  // Redirect back with courseId
     }
 
 
@@ -60,6 +67,7 @@ public class AttendanceController {
         }
         model.addAttribute("attenDTO", new AttendanceDTO());
         model.addAttribute("courses", courseService.fetchAllCourses());
+        model.addAttribute("errMessage", errMessage);
         model.addAttribute("content", "markAttendance");
         return "sidebar";  // Adjusted view name
     }
