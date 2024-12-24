@@ -1,10 +1,9 @@
 package com.example.cms.entity;
 
-import java.time.LocalDate;
+import java.sql.Date;
 
 import org.hibernate.annotations.CreationTimestamp;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,6 +16,7 @@ public class Attendance {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long attendanceId;
+    
 
     @ManyToOne
     @JoinColumn(
@@ -35,7 +35,7 @@ public class Attendance {
     
 
     @CreationTimestamp
-    private LocalDate date;
+    private Date date;
     private Boolean isPresent;
 	public Long getAttendanceId() {
 		return attendanceId;
@@ -55,12 +55,12 @@ public class Attendance {
 	public void setCourse(Course course) {
 		this.course = course;
 	}
-	public LocalDate getDate() {
+	public Date getDate() {
 		return date;
 	}
 	
 	
-	public void setDate(LocalDate date) {
+	public void setDate(Date date) {
 		this.date = date;
 	}
 	public Boolean getIsPresent() {

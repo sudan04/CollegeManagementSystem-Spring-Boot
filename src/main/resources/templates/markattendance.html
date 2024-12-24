@@ -15,7 +15,7 @@
             <form th:action="@{/markAttendance}" method="get">
                 <label for="courseId">Select Course:</label>
                 <select id="courseId" name="courseId" onchange="this.form.submit()">
-                    <option th:if="${selectedCourse == null}" value="" disabled selected>Select Course</option>
+                    <option disabled selected>Select Course</option>
                     <option th:each="course : ${courses}" th:value="${course.courseId}" th:text="${course.courseName}" 
                             th:selected="${selectedCourse != null and selectedCourse.courseId == course.courseId}"></option>
                 </select>
@@ -37,9 +37,10 @@
                 </thead>
                 <tbody>
                     <!-- Empty message if no students are loaded -->
-                    <tr th:if="${students == null || students.isEmpty()}">
+                    <tr th:if="${selectedCourse == null}">
                         <td colspan="3" class="empty-message">Select a course to load students.</td>
                     </tr>
+                    
                     <!-- List of students and radio buttons for attendance -->
                     <tr th:each="student : ${students}">
                         <td th:text="${student.studentId}"></td>

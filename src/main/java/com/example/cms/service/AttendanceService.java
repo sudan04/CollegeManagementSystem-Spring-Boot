@@ -1,5 +1,6 @@
 package com.example.cms.service;
 
+import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.cms.dto.AttendanceDTO;
+import com.example.cms.dto.AttendanceFilterDTO;
 import com.example.cms.entity.Attendance;
 import com.example.cms.entity.Course;
 import com.example.cms.entity.Student;
@@ -68,7 +70,7 @@ public class AttendanceService {
 		List<Attendance> atdList= attendanceRepository.findByCourseAndDate(course, LocalDate.now());
 		
 		if(atdList != null && !atdList.isEmpty()) {
-			throw new Exception("Attendance is already marked for Course "+ course.getCourseName()+" for today");
+			throw new Exception("Today's attendance is already marked for Course "+ course.getCourseName());
 		}
 		
 		for(Map.Entry<Long, String> entry : attendance.entrySet()) {
@@ -83,5 +85,30 @@ public class AttendanceService {
 			
 			attendanceRepository.save(atd);
 		}
+	}
+	
+	
+	public List<Attendance> filterAttendanceRecords(AttendanceFilterDTO filterDto) throws Exception {
+	  
+		Long studentId= filterDto.getStudentId();
+		Long courseId= filterDto.getCourseId();
+		
+		Date startDate= (filterDto.getStartDate() != null)? java.sql.Date.valueOf(filterDto.getStartDate()): null;
+		Date endDate= (filterDto.getEndDate() != null)? java.sql.Date.valueOf(filterDto.getEndDate()): null;
+		
+		System.out.println(startDate);
+		System.out.println(endDate);
+	    List<Attendance> attendanceList = attendanceRepository.filterAttendance(
+	        studentId,
+	        courseId,
+	        startDate,
+	        endDate
+	    );
+
+	    if (attendanceList == null || attendanceList.isEmpty()) {
+	        throw new Exception("No attendance records found!");
+	    }
+
+	    return attendanceList;
 	}
 }

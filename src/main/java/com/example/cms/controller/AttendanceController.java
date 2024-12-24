@@ -14,7 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cms.dto.AttendanceDTO;
+import com.example.cms.dto.AttendanceFilterDTO;
 import com.example.cms.entity.Attendance;
+import com.example.cms.entity.Course;
+import com.example.cms.entity.Student;
 import com.example.cms.service.AttendanceService;
 import com.example.cms.service.CourseService;
 import com.example.cms.service.EnrollmentService;
@@ -43,12 +46,11 @@ public class AttendanceController {
     @PostMapping("/markAttendance")
     public String handleAttendanceSubmission( @ModelAttribute AttendanceDTO attendanceDTO, Model model) {
 
-        // Save attendance (assuming you have a service for this)
+        
     	try {
          attendanceService.saveAttendance(attendanceDTO);
     	}catch(Exception e) {
-//    		model.addAttribute("errMessage", e.getMessage());
-    		errMessage= e.getMessage();
+    		model.addAttribute("errMessage", e.getMessage());
     		return "redirect:/markAttendance?courseId=" + attendanceDTO.getCourseId();
     	}
     	
@@ -61,9 +63,15 @@ public class AttendanceController {
     // Render the page to mark attendance for a student in a specific course
     @GetMapping("/markAttendance")
     public String showMarkAttendanceForm(@RequestParam(name = "courseId", required = false) Long courseId, Model model) throws Exception {
-        if (courseId != null) {
-            model.addAttribute("students", enrollmentService.findStudentByCourseId(courseId));
-            model.addAttribute("selectedCourse", courseService.findByCourseId(courseId));
+        Course selectedCourse;
+        List<Student> students;
+    	
+    	if (courseId != null) {
+    		selectedCourse= courseService.findByCourseId(courseId);
+    		students= enrollmentService.findStudentByCourseId(courseId);
+    		
+            model.addAttribute("students", students);
+            model.addAttribute("selectedCourse", selectedCourse);
         }
         model.addAttribute("attenDTO", new AttendanceDTO());
         model.addAttribute("courses", courseService.fetchAllCourses());
@@ -88,31 +96,32 @@ public class AttendanceController {
         return "attendanceList";
     }
 
-    // Get all attendance records for a specific student in a specific course
-    @GetMapping("/student/{studentId}/course/{courseId}")
-    public String getAttendanceByStudentAndCourse(@PathVariable Long studentId,
-                                                  @PathVariable Long courseId,
-                                                  Model model) {
-        try {
-            List<Attendance> attendanceList = attendanceService.getAttendanceByStudentAndCourse(studentId, courseId);
-            model.addAttribute("attendanceList", attendanceList);
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error fetching attendance: " + e.getMessage());
-        }
-        return "attendanceList";
-    }
+   
 
-//    // Get all attendance records by a specific faculty
-//    @GetMapping("/faculty/{facultyId}")
-//    public String getAttendanceByFaculty(@PathVariable Long facultyId, Model model) {
-//        try {
-//            List<Attendance> attendanceList = attendanceService.getAttendanceByFaculty(facultyId);
-//            model.addAttribute("attendanceList", attendanceList);
-//        } catch (Exception e) {
-//            model.addAttribute("errorMessage", "Error fetching attendance by faculty: " + e.getMessage());
-//        }
-//        return "attendanceList";
-//    }
+    // get viewAttendance form
+    @GetMapping("attendance/view")
+    public String viewAttendance(@ModelAttribute AttendanceFilterDTO filterDto, Model model) {
+        List<Attendance> attendanceList = null;
+//        System.out.println(filterDto.getStartDate());
+//        System.out.println(filterDto.getEndDate());
+
+        try {
+            List<Student> students = studentService.fetchAllStudents();
+            List<Course> courses = courseService.fetchAllCourses();
+
+            model.addAttribute("students", students);
+            model.addAttribute("courses", courses);
+
+            attendanceList = attendanceService.filterAttendanceRecords(filterDto);
+        } catch (Exception e) {
+        	System.out.println(e.getMessage());
+        }
+
+        model.addAttribute("attendanceList", attendanceList);
+        model.addAttribute("content", "viewAttendance");
+
+        return "sidebar";
+    }
 
     
     

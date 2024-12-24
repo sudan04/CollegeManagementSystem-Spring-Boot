@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>View Attendance</title>
+    <link rel="stylesheet" th:href="@{/css/viewAttendance.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>View Attendance</h1>
+
+        <!-- Button to show/hide filter form -->
+        <button onclick="toggleFilterForm()">Filter Attendance</button>
+
+        <!-- Filter Form -->
+        <form id="filterForm" th:action="@{/attendance/view}" method="get" style="display: none; margin-top: 20px;">
+            <div class="filter-group">
+                <label for="studentId">Student:</label>
+                <input type="text" id="studentSearch" placeholder="Search Student" onkeyup="filterOptions('studentId', this)">
+                <select id="studentId" name="studentId">
+                    <option value="" disabled selected>Select Student</option>
+                    <option th:each="student : ${students}" 
+                            th:value="${student.studentId}" 
+                            th:text="${student.user.firstName + ' ' + student.user.lastName + ' (' + student.user.email + ')'}"></option>
+                </select>
+            </div>
+        
+            <div class="filter-group">
+                <label for="courseId">Course:</label>
+                <input type="text" id="courseSearch" placeholder="Search Course" onkeyup="filterOptions('courseId', this)">
+                <select id="courseId" name="courseId">
+                    <option value="" disabled selected>Select Course</option>
+                    <option th:each="course : ${courses}" 
+                            th:value="${course.courseId}" 
+                            th:text="${course.courseName}"></option>
+                </select>
+            </div>
+        
+            <div class="filter-group">
+                <label for="startDate">Start Date:</label>
+                <input type="date" id="startDate" name="startDate">
+            </div>
+            
+            <div class="filter-group">
+                <label for="endDate">End Date:</label>
+                <input type="date" id="endDate" name="endDate">
+            </div>
+        
+            <button type="submit">Apply Filters</button>
+        </form>
+
+        <!-- Table Container -->
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 5%;">S.N</th>
+                        <th style="width: 20%;">Date</th>
+                        <th style="width: 25%;">Student</th>
+                        <th style="width: 25%;">Course</th>
+                        <th style="width: 25%;">Attendance</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:if="${attendanceList == null || attendanceList.isEmpty()}">
+                        <td colspan="5" class="empty-message">No attendance records found.</td>
+                    </tr>
+                    <tr th:each="attendance, iterStat : ${attendanceList}">
+                        <td th:text="${iterStat.count}"></td>
+                        <td th:text="${attendance.date}"></td>
+                        <td th:text="${attendance.student.user.firstName} + ' ' + ${attendance.student.user.lastName}"></td>
+                        <td th:text="${attendance.course.courseName}"></td>
+                        <td th:text="${attendance.isPresent ? 'Present' : 'Absent'}"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Script -->
+    <script>
+        // Function to filter options in the dropdown based on user input
+        function filterOptions(selectElementId, inputElement) {
+            const filter = inputElement.value.trim().toLowerCase(); 
+            const selectElement = document.getElementById(selectElementId);
+            const options = selectElement.querySelectorAll('option');
+            
+            options.forEach(option => {
+                const text = option.textContent.toLowerCase(); // Use textContent for filtering
+                if (filter === "" || text.indexOf(filter) > -1) { // Show all options if filter is empty
+                    option.style.display = ''; // Show matching option
+                } else {
+                    option.style.display = 'none'; // Hide non-matching option
+                }
+            });
+        }
+
+        // Toggle filter form visibility
+        function toggleFilterForm() {
+            const filterForm = document.getElementById('filterForm');
+            if (filterForm.style.display === 'none' || filterForm.style.display === '') {
+                filterForm.style.display = 'block';
+            } else {
+                filterForm.style.display = 'none';
+            }
+        }
+    </script>
+</body>
+</html>
