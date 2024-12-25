@@ -5,7 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cms.entity.Enrollment;
 import com.example.cms.service.CourseService;
@@ -39,7 +44,7 @@ public class EnrollmentController {
         return "redirect:/fetchAllEnrollments";
     }
     
-    
+    // show add enrollment page
     @GetMapping("/addEnrollment")
     public String getEnrollmentPage(Model model) throws Exception {
     	model.addAttribute("courses", courseService.fetchAllCourses());
@@ -50,32 +55,18 @@ public class EnrollmentController {
     }
 
     // Delete enrollment by id
-    @DeleteMapping("/deleteEnrollmentById/{enrollmentId}")
-    public String deleteEnrollmentById(@PathVariable(name = "enrollmentId") Long enrollmentId, Model model) {
+    @GetMapping("/unenroll")
+    public String deleteEnrollmentById(@RequestParam(name = "enrollmentId") Long enrollmentId, Model model) {
         try {
-            boolean isDeleted = enrollmentService.deleteEnrollmentById(enrollmentId);
-            if (isDeleted) {
-                model.addAttribute("successMessage", "Enrollment deleted successfully!");
-            } else {
-                model.addAttribute("errorMessage", "Failed to delete enrollment!");
-            }
+            enrollmentService.deleteEnrollmentById(enrollmentId);
+           
         } catch (Exception e) {
             model.addAttribute("errorMessage", e.getMessage());
         }
-        return "enrollmentManagementPage";
+        return "redirect:fetchAllEnrollments";
     }
 
-    // Find enrollment by id
-    @GetMapping("/findEnrollmentById/{enrollmentId}")
-    public String findEnrollmentById(@PathVariable(name = "enrollmentId") Long enrollmentId, Model model) {
-        try {
-            Enrollment enrollment = enrollmentService.findEnrollmentById(enrollmentId);
-            model.addAttribute("enrollment", enrollment);
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", e.getMessage());
-        }
-        return "enrollmentDetailsPage";
-    }
+  
 
     // Fetch all enrollments
     @GetMapping("/fetchAllEnrollments")

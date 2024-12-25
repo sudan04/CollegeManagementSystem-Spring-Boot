@@ -3,7 +3,75 @@
 <head>
     <title>Enroll Student</title>
     <link rel="stylesheet" href="/css/enrollStudent.css"> 
-    
+
+    <style>
+        /* General Styling */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: skyblue;
+            color: #333;
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        input, select, button {
+            width: 90%;
+            max-width: 450px;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        select {
+            background: #f9f9f9;
+            cursor: pointer;
+        }
+
+        input:focus, select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 4px rgba(52, 152, 219, 0.5);
+        }
+
+        button {
+            background-color: #3498db;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #2980b9;
+        }
+
+        /* Filter Search Input Styling */
+        #studentSearch, #courseSearch {
+            background-color: #eef6fc;
+        }
+    </style>
 </head>
 <body>
 
@@ -16,13 +84,13 @@
 
     <!-- Enrollment Form -->
     <form th:action="@{/addEnrollment}" method="post">
-        <label for="student">Search and Select Student:</label>
+        <label for="studentSearch">Search and Select Student:</label>
         
-        <!-- Search Input -->
+        <!-- Search Input for Students -->
         <input type="text" id="studentSearch" placeholder="Search for a student...">
         
         <!-- Student Dropdown -->
-        <select id="student" name="studentId" required size="5">
+        <select id="student" name="studentId" required>
             <option value="" disabled selected>Choose a student</option>
             <option th:each="student : ${students}" 
                     th:value="${student.studentId}" 
@@ -30,7 +98,12 @@
         </select>
         <br>
 
-        <label for="course">Select Course:</label>
+        <label for="courseSearch">Search and Select Course:</label>
+        
+        <!-- Search Input for Courses -->
+        <input type="text" id="courseSearch" placeholder="Search for a course...">
+        
+        <!-- Course Dropdown -->
         <select id="course" name="courseId" required>
             <option value="" disabled selected>Choose a course</option>
             <option th:each="course : ${courses}" 
@@ -44,18 +117,28 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", () => {
-            const searchInput = document.getElementById("studentSearch");
+            const studentSearchInput = document.getElementById("studentSearch");
             const studentDropdown = document.getElementById("student");
+            const courseSearchInput = document.getElementById("courseSearch");
+            const courseDropdown = document.getElementById("course");
 
-            searchInput.addEventListener("input", () => {
-                const filter = searchInput.value.toLowerCase();
-                const options = studentDropdown.options;
+            function filterDropdown(searchInput, dropdown) {
+                const filter = searchInput.value.trim().toLowerCase();
+                const options = dropdown.options;
 
-                for (let i = 1; i < options.length; i++) { // Skip the default "Choose a student" option
+                for (let i = 1; i < options.length; i++) { // Skip the default "Choose" option
                     const option = options[i];
                     const text = option.textContent.toLowerCase();
                     option.style.display = text.includes(filter) ? "" : "none";
                 }
+            }
+
+            studentSearchInput.addEventListener("input", () => {
+                filterDropdown(studentSearchInput, studentDropdown);
+            });
+
+            courseSearchInput.addEventListener("input", () => {
+                filterDropdown(courseSearchInput, courseDropdown);
             });
         });
     </script>

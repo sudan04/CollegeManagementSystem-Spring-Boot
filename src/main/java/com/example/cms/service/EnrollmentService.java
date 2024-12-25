@@ -53,13 +53,12 @@ public class EnrollmentService {
     }
 
     // Delete enrollment by id
-    public boolean deleteEnrollmentById(Long enrollmentId) throws Exception {
+    public void deleteEnrollmentById(Long enrollmentId) throws Exception {
         Enrollment enrollment = enrollmentRepository.findByEnrollmentId(enrollmentId);
         if (enrollment == null) {
             throw new Exception("Enrollment not found!");
         }
         enrollmentRepository.delete(enrollment);
-        return true;
     }
 
     // Find enrollment by id
