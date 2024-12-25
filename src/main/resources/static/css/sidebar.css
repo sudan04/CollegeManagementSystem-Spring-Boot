@@ -144,7 +144,7 @@
     .sidebar-header {
 	  display: flex;
 	  align-items: center;
-	  justify-content: center; /* Center both image and text horizontally */
+	  justify-content: center; 
 	  padding: 10px 20px;
 	  margin-right: 60px;
 	}

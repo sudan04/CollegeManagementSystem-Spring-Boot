@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.cms.dtoEntityMapper.UserDTOMapper;
 import com.example.cms.entity.Users;
@@ -74,6 +75,27 @@ public class AdminController {
         return "sidebar";  
     }
 
+    // get viewUser page
+    @GetMapping("/viewUsers")
+    public String getViewUserPage(@RequestParam(name= "userType", required= false) Role role, Model model)  {
+    	
+    	try {
+    		if(role != null) {
+    			System.out.println(role.name());
+        		if(role == Role.STUDENT)
+        			model.addAttribute("users", studentService.fetchAllStudents());
+        		
+        		if(role == Role.FACULTY)
+        			model.addAttribute("users", facultyService.fetchAllFaculty());
+        	}
+    	}catch(Exception e) {
+    		
+    	}
+    	model.addAttribute("selectedUserType", role != null ? role.name() : null);
+    	model.addAttribute("content", "viewUsers");
+    	return "sidebar";
+    }
+    
     // Delete user by userID
     @GetMapping("/deleteUser/userId/{userId}")
     public String deleteUser(@PathVariable Long userId, Model model) {

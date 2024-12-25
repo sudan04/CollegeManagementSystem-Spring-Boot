@@ -3,6 +3,7 @@
             background-color: #f4f4f9;
             margin: 0;
             padding: 20px;
+            background-color: skyblue;
         }
 
         .form-container {
@@ -33,14 +34,14 @@
         }
 
         form button {
-            background-color: #4CAF50;
+            background-color: royalblue;
             color: white;
             border: none;
             cursor: pointer;
         }
 
         form button:hover {
-            background-color: #45a049;
+            background-color: blue;
         }
 
         .filter-input {

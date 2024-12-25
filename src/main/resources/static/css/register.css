@@ -6,13 +6,12 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color: skyblue;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     margin: 0;
-    background-image: url("/images/registrationBgImg.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -20,7 +19,7 @@ body {
 }
 
 .container {
-    background-color: rgba(0, 255, 255, 0.8); 
+    background-color: bisque; 
     padding: 40px;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); 

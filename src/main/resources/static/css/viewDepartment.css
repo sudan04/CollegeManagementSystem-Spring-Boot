@@ -1,16 +1,9 @@
-:root {
-            --primary-color: #007bff;
-            --danger-color: #dc3545;
-            --background-color: #f4f4f9;
-            --text-color: #333;
-            --table-header-bg: #f8f9fa;
-        }
+
         body {
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background-color: var(--background-color);
-            color: var(--text-color);
+            background-color: skyblue;
         }
         h1 {
             text-align: center;
@@ -52,6 +45,7 @@
         }
         .action-buttons a {
             margin-right: 0.5rem;
+            text-decoration: none;
         }
         .action-buttons .delete {
             color: var(--danger-color);

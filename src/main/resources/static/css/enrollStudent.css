@@ -3,7 +3,7 @@
             font-family: Arial, sans-serif;
             margin: 0;
             padding: 20px;
-            background-color: #f7f9fc;
+            background-color: skyblue;
             color: #333;
         }
 
@@ -70,7 +70,7 @@
             margin-bottom: 15px;
         }*/
 
-        /* Search Box Styling */
+        
         #studentSearch {
             margin-bottom: 10px;
             background-color: #eef6fc;

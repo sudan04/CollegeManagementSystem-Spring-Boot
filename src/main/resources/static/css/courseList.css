@@ -1,7 +1,6 @@
-/* General Styles */
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f4f9;
+  background-color: skyblue;
   margin: 0;
   padding: 0;
 }
@@ -10,36 +9,46 @@ body {
   width: 80%;
   margin: auto;
   padding: 20px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
   text-align: center;
   color: #333;
+  margin-bottom: 20px;
 }
 
-/* Search Box */
 .form-control {
   padding: 10px;
   border: 1px solid #ccc;
   border-radius: 4px;
   width: 100%;
+  background-color: #f9f9f9;
 }
 
-/* Table Styles */
+.form-control:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
 .table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 20px;
+  background-color: #fff;
 }
 
 .table th, .table td {
   padding: 10px;
   text-align: left;
   border: 1px solid #ddd;
+  word-wrap: break-word;
 }
 
 .table th {
-  background-color: rgb(0, 255, 255);
+  background-color:blueviolet;
   color: white;
 }
 
@@ -51,13 +60,11 @@ h1 {
   background-color: #f1f1f1;
 }
 
-/* No Material and No Teacher */
 .no-material, .no-teacher {
   color: red;
   font-style: italic;
 }
 
-/* Action Buttons */
 .btn {
   padding: 6px 12px;
   border: none;
@@ -84,16 +91,21 @@ h1 {
   opacity: 0.8;
 }
 
-
 .button-cell {
   display: flex;
-  gap: 10px; 
-  justify-content: start; 
-  align-items: center; 
+  gap: 10px;
+  justify-content: start;
+  align-items: center;
 }
-
 
 td {
   word-wrap: break-word;
-  max-width: 250px; 
+  max-width: 250px;
+  
+  a{
+	  text-decoration: none;
+  }
+  
 }
+
+

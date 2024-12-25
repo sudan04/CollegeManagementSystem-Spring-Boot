@@ -40,22 +40,17 @@ public class AttendanceController {
     private EnrollmentService enrollmentService;
     
     
-    private String errMessage;
 
  // Mark attendance for a student in a course
     @PostMapping("/markAttendance")
     public String handleAttendanceSubmission( @ModelAttribute AttendanceDTO attendanceDTO, Model model) {
-
-        
     	try {
          attendanceService.saveAttendance(attendanceDTO);
     	}catch(Exception e) {
     		model.addAttribute("errMessage", e.getMessage());
     		return "redirect:/markAttendance?courseId=" + attendanceDTO.getCourseId();
     	}
-    	
-
-        return "redirect:/admin/adminHomeData";  // Redirect back with courseId
+        return "redirect:/admin/adminHomeData";  
     }
 
 
@@ -75,7 +70,6 @@ public class AttendanceController {
         }
         model.addAttribute("attenDTO", new AttendanceDTO());
         model.addAttribute("courses", courseService.fetchAllCourses());
-        model.addAttribute("errMessage", errMessage);
         model.addAttribute("content", "markAttendance");
         return "sidebar";  // Adjusted view name
     }
@@ -83,18 +77,18 @@ public class AttendanceController {
 
     
   
-
-    // Get all attendance records for a specific course
-    @GetMapping("/course/{courseId}")
-    public String getAttendanceByCourse(@PathVariable Long courseId, Model model) {
-        try {
-            List<Attendance> attendanceList = attendanceService.getAttendanceByCourse(courseId);
-            model.addAttribute("attendanceList", attendanceList);
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error fetching attendance for the course: " + e.getMessage());
-        }
-        return "attendanceList";
-    }
+//
+//    // Get all attendance records for a specific course
+//    @GetMapping("/course/{courseId}")
+//    public String getAttendanceByCourse(@PathVariable Long courseId, Model model) {
+//        try {
+//            List<Attendance> attendanceList = attendanceService.getAttendanceByCourse(courseId);
+//            model.addAttribute("attendanceList", attendanceList);
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Error fetching attendance for the course: " + e.getMessage());
+//        }
+//        return "attendanceList";
+//    }
 
    
 
@@ -125,19 +119,19 @@ public class AttendanceController {
 
     
     
-    // Get attendance for a specific student in a course on a specific date
-    @GetMapping("/student/{studentId}/course/{courseId}/date/{date}")
-    public String getAttendanceByStudentCourseAndDate(@PathVariable Long studentId,
-                                                      @PathVariable Long courseId,
-                                                      @PathVariable String date,
-                                                      Model model) {
-        try {
-            LocalDate localDate = LocalDate.parse(date);
-            List<Attendance> attendanceList = attendanceService.getAttendanceByStudentCourseAndDate(studentId, courseId, localDate);
-            model.addAttribute("attendanceList", attendanceList);
-        } catch (Exception e) {
-            model.addAttribute("errorMessage", "Error fetching attendance by date: " + e.getMessage());
-        }
-        return "attendanceList";
-    }
+//    // Get attendance for a specific student in a course on a specific date
+//    @GetMapping("/student/{studentId}/course/{courseId}/date/{date}")
+//    public String getAttendanceByStudentCourseAndDate(@PathVariable Long studentId,
+//                                                      @PathVariable Long courseId,
+//                                                      @PathVariable String date,
+//                                                      Model model) {
+//        try {
+//            LocalDate localDate = LocalDate.parse(date);
+//            List<Attendance> attendanceList = attendanceService.getAttendanceByStudentCourseAndDate(studentId, courseId, localDate);
+//            model.addAttribute("attendanceList", attendanceList);
+//        } catch (Exception e) {
+//            model.addAttribute("errorMessage", "Error fetching attendance by date: " + e.getMessage());
+//        }
+//        return "attendanceList";
+//    }
 }

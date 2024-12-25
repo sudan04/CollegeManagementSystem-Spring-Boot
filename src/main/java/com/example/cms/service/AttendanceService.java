@@ -2,6 +2,7 @@ package com.example.cms.service;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -35,31 +36,31 @@ public class AttendanceService {
 
    
 
-    // Get all attendance records for a specific course
-    public List<Attendance> getAttendanceByCourse(Long courseId) throws Exception {
-        Course course = courseRepository.findByCourseId(courseId);
-        return attendanceRepository.findByCourse(course);
-    }
+//    // Get all attendance records for a specific course
+//    public List<Attendance> getAttendanceByCourse(Long courseId) throws Exception {
+//        Course course = courseRepository.findByCourseId(courseId);
+//        return attendanceRepository.findByCourse(course);
+//    }
+
+//    
+//    // Get all attendance records for a specific student in a specific course
+//    public List<Attendance> getAttendanceByStudentAndCourse(Long studentId, Long courseId) throws Exception {
+//        Student student = studentRepository.findByStudentId(studentId);
+//        Course course = courseRepository.findByCourseId(courseId);
+//                
+//        return attendanceRepository.findByStudentAndCourse(student, course);
+//    }
+    
+
 
     
-    // Get all attendance records for a specific student in a specific course
-    public List<Attendance> getAttendanceByStudentAndCourse(Long studentId, Long courseId) throws Exception {
-        Student student = studentRepository.findByStudentId(studentId);
-        Course course = courseRepository.findByCourseId(courseId);
-                
-        return attendanceRepository.findByStudentAndCourse(student, course);
-    }
-    
-
-
-    
-    // Get attendance for a specific student in a course on a specific date
-    public List<Attendance> getAttendanceByStudentCourseAndDate(Long studentId, Long courseId, LocalDate date) throws Exception {
-        Student student = studentRepository.findByStudentId(studentId);
-        Course course = courseRepository.findByCourseId(courseId);
-        
-        return attendanceRepository.findByStudentAndCourseAndDate(student, course, date);
-    }
+//    // Get attendance for a specific student in a course on a specific date
+//    public List<Attendance> getAttendanceByStudentCourseAndDate(Long studentId, Long courseId, LocalDate date) throws Exception {
+//        Student student = studentRepository.findByStudentId(studentId);
+//        Course course = courseRepository.findByCourseId(courseId);
+//        
+//        return attendanceRepository.findByStudentAndCourseAndDate(student, course, date);
+//    }
 
     // save attendance
 	public void saveAttendance(AttendanceDTO attendanceDTO) throws Exception {
@@ -88,27 +89,45 @@ public class AttendanceService {
 	}
 	
 	
+	// filter attendance records 
 	public List<Attendance> filterAttendanceRecords(AttendanceFilterDTO filterDto) throws Exception {
 	  
 		Long studentId= filterDto.getStudentId();
 		Long courseId= filterDto.getCourseId();
+		
+		Course course= courseRepository.findByCourseId(courseId);
+		Student student= studentRepository.findByStudentId(studentId);
 		
 		Date startDate= (filterDto.getStartDate() != null)? java.sql.Date.valueOf(filterDto.getStartDate()): null;
 		Date endDate= (filterDto.getEndDate() != null)? java.sql.Date.valueOf(filterDto.getEndDate()): null;
 		
 		System.out.println(startDate);
 		System.out.println(endDate);
-	    List<Attendance> attendanceList = attendanceRepository.filterAttendance(
-	        studentId,
-	        courseId,
-	        startDate,
-	        endDate
-	    );
-
-	    if (attendanceList == null || attendanceList.isEmpty()) {
-	        throw new Exception("No attendance records found!");
-	    }
-
-	    return attendanceList;
+		
+		
+		if (startDate != null && endDate != null && courseId != null && studentId != null) {
+            return attendanceRepository.findByDateBetweenAndCourseAndStudent(startDate, endDate, course, student);
+        } 
+		else if (startDate != null && endDate != null && courseId != null) {
+            return attendanceRepository.findByDateBetweenAndCourse(startDate, endDate, course);
+        } 
+		else if (startDate != null && endDate != null && studentId != null) {
+            return attendanceRepository.findByDateBetweenAndCourse(startDate, endDate, course);
+        } 
+		else if (startDate != null && endDate != null) {
+            return attendanceRepository.findByDateBetween(startDate, endDate);
+        } 
+		else if(courseId != null && studentId !=null) {
+			return attendanceRepository.findByCourseAndStudent(course, student);
+		}
+		else if (courseId != null) {
+            return attendanceRepository.findByCourse(course);
+        } 
+		else if (studentId != null) {
+            return attendanceRepository.findByStudent(student);
+        } 
+		else {
+            return attendanceRepository.findAll();
+        }
 	}
 }

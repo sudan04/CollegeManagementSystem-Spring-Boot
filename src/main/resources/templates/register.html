@@ -30,6 +30,7 @@
     </style>
 </head>
 <body>
+	<script src="/js/registerValidation.js"></script>
     <div class="container">
         <form th:action="@{/admin/createUser}" method="POST" onsubmit="return validateForm()">
             <div class="page-header">
@@ -75,7 +76,7 @@
                     <label for="email">Email:</label>
                 </span>
                 <span class="input">
-                    <input type="email" id="email" name="email">
+                    <input type="text" id="email" name="email">
                 </span>
                 <div id="email-error" class="error-message"></div>
             </div>

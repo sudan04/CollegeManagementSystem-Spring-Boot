@@ -58,7 +58,7 @@
       <a href="javascript:void(0)"><i class="fas fa-users"></i> User Management <i class="fas fa-chevron-down"></i></a>
       <ul class="dropdown-menu">
         <li><a th:href="@{/admin/createUser}">Register User</a></li>
-        <li><a href="/user/view">View Users</a></li>
+        <li><a href="/admin/viewUsers">View Users</a></li>
       </ul>
     </div>
 
@@ -81,17 +81,14 @@
       dropdownToggle.addEventListener('click', function (event) {
         var parent = this.parentElement;
 
-        // Toggle the "active" class to show or hide the dropdown menu
         parent.classList.toggle('active');
         
-        // Close all other dropdowns except the clicked one
         document.querySelectorAll('.dropdown').forEach(function (dropdown) {
           if (dropdown !== parent) {
             dropdown.classList.remove('active');
           }
         });
         
-        // Prevent link navigation
         event.preventDefault();
       });
     });
