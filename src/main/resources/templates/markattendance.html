@@ -12,7 +12,7 @@
 
         <!-- Course Selection -->
         <div class="top-controls">
-            <form th:action="@{/markAttendance}" method="get">
+            <form th:action="@{/faculty/markAttendance}" method="get">
                 <label for="courseId">Select Course:</label>
                 <select id="courseId" name="courseId" onchange="this.form.submit()">
                     <option disabled selected>Select Course</option>
@@ -23,7 +23,7 @@
         </div>
 
         <!-- Attendance Form -->
-        <form th:action="@{/markAttendance}" method="post">
+        <form th:action="@{/faculty/markAttendance}" method="post">
             <!-- Pass courseId to the backend -->
             <input type="hidden" name="courseId" th:value="${selectedCourse != null ? selectedCourse.courseId : ''}">
 

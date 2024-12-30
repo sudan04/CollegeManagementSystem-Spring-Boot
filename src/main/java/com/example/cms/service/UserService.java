@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.cms.entity.Users;
 import com.example.cms.repository.UserRepository;
@@ -52,9 +53,10 @@ public class UserService {
         return usersList; 
     }
 	
-
-	public boolean deleteUser(Long userId) {
-		return userRepository.deleteByUserId(userId);
+	
+	@Transactional
+	public void deleteUser(Long userId) {
+		userRepository.deleteByUserId(userId);
 	}
 
 //	public Users updateUser(Users oldUser, Users user) {

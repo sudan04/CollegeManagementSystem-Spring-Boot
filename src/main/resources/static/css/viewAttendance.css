@@ -46,11 +46,16 @@ label {
 }
 
 input[type="text"], select, input[type="date"] {
-    width: 100%;
+    width: 95%;
     padding: 10px;
     margin: 5px 0;
     border: 1px solid #ccc;
     border-radius: 4px;
+    
+}
+
+input[type="date"]{
+	width: 50%;
 }
 
 /* Table container */

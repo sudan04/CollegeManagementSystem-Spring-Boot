@@ -34,6 +34,15 @@ public class Users {
 
     @CreationTimestamp
     private LocalDate createdOn;
+    
+    
+    @OneToOne(mappedBy= "user", cascade=CascadeType.ALL)
+    private Faculty faculty;
+    
+    
+    @OneToOne(mappedBy= "user", cascade=CascadeType.ALL)
+    private Student student;
+    
 
 
 	public Long getUserId() {

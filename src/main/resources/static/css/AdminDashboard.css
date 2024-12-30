@@ -62,19 +62,15 @@
       background-color: #5a6268; /* Slightly darker background on hover */
     }
 
-    .chart-container {
-      display: flex;
-      justify-content: space-around;
-      margin-top: 30px;
-    }
+    
 
     .chart {
-      width: 45%;
+      width: 38%;
       height: 150px; /* Increased height */
       position: relative;
       background-color: rgb(255, 255, 255);
       border-radius: 10px;
-      margin-left: 5px;
+      margin-left: 50px;
     }
 
     /* Shadow effect for the chart */

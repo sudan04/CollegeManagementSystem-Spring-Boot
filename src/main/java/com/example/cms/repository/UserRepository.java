@@ -13,5 +13,5 @@ public Users findByUserId(long id);
 public Users findByEmail(String email);
 
 
-public boolean deleteByUserId(Long userId);
+public void deleteByUserId(Long userId);
 }

@@ -22,7 +22,7 @@ public class AuthConfig {
         http
             .csrf(csrf -> csrf.disable())
             .authorizeHttpRequests(requests -> requests
-                .requestMatchers("/login", "/images/**", "/css/**", "/js/**").permitAll() // Allow static resources
+                .requestMatchers("/login", "/images/**", "/css/**", "/js/**").permitAll() 
                 .requestMatchers("/admin/**").hasAuthority("ROLE_ADMIN")
                 .requestMatchers("/faculty/**").hasAuthority("ROLE_FACULTY")
                 .requestMatchers("/student/**").hasAuthority("ROLE_STUDENT")
@@ -34,9 +34,9 @@ public class AuthConfig {
                     if (role.equals("ROLE_ADMIN")) {
                         response.sendRedirect("/admin/adminHomeData");
                     } else if (role.equals("ROLE_FACULTY")) {
-                        response.sendRedirect("/userProfile");
+                        response.sendRedirect("/faculty/home");
                     } else if (role.equals("ROLE_STUDENT")) {
-                        response.sendRedirect("/userProfile");
+                        response.sendRedirect("/student/home");
                     }
                 })
                 .failureUrl("/login?error=true")

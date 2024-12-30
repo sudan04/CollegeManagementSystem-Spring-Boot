@@ -1,14 +1,14 @@
 package com.example.cms.controller;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -18,6 +18,9 @@ import com.example.cms.dto.AttendanceFilterDTO;
 import com.example.cms.entity.Attendance;
 import com.example.cms.entity.Course;
 import com.example.cms.entity.Student;
+import com.example.cms.entity.Users;
+import com.example.cms.repository.CourseRepository;
+import com.example.cms.repository.UserRepository;
 import com.example.cms.service.AttendanceService;
 import com.example.cms.service.CourseService;
 import com.example.cms.service.EnrollmentService;
@@ -39,39 +42,55 @@ public class AttendanceController {
     @Autowired
     private EnrollmentService enrollmentService;
     
+    @Autowired
+    private UserRepository userRepository;
+    
+    @Autowired
+    private CourseRepository courseORepository;
+    
+    
+    
     
 
  // Mark attendance for a student in a course
-    @PostMapping("/markAttendance")
+    @PostMapping("/faculty/markAttendance")
     public String handleAttendanceSubmission( @ModelAttribute AttendanceDTO attendanceDTO, Model model) {
     	try {
          attendanceService.saveAttendance(attendanceDTO);
     	}catch(Exception e) {
     		model.addAttribute("errMessage", e.getMessage());
-    		return "redirect:/markAttendance?courseId=" + attendanceDTO.getCourseId();
+    		return "redirect:/faculty/markAttendance?courseId=" + attendanceDTO.getCourseId();
     	}
-        return "redirect:/admin/adminHomeData";  
+        return "redirect:/attendance/view";  
     }
 
 
 
     // Render the page to mark attendance for a student in a specific course
-    @GetMapping("/markAttendance")
+    @GetMapping("/faculty/markAttendance")
     public String showMarkAttendanceForm(@RequestParam(name = "courseId", required = false) Long courseId, Model model) throws Exception {
-        Course selectedCourse;
-        List<Student> students;
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name;
+
+        if (principal instanceof UserDetails) {
+            name = ((UserDetails) principal).getUsername();
+        } else {
+            name = principal.toString();
+        }
+        
+        Users user = userRepository.findByUserName(name);
     	
     	if (courseId != null) {
-    		selectedCourse= courseService.findByCourseId(courseId);
-    		students= enrollmentService.findStudentByCourseId(courseId);
-    		
+    		Course selectedCourse= courseService.findByCourseId(courseId);
+    		List<Student> students= enrollmentService.findStudentByCourseId(courseId);
+   
             model.addAttribute("students", students);
             model.addAttribute("selectedCourse", selectedCourse);
         }
         model.addAttribute("attenDTO", new AttendanceDTO());
-        model.addAttribute("courses", courseService.fetchAllCourses());
+        model.addAttribute("courses", courseORepository.findByFacultyUser(user));
         model.addAttribute("content", "markAttendance");
-        return "sidebar";  // Adjusted view name
+        return "faculty_nav";
     }
 
 
@@ -96,8 +115,6 @@ public class AttendanceController {
     @GetMapping("attendance/view")
     public String viewAttendance(@ModelAttribute AttendanceFilterDTO filterDto, Model model) {
         List<Attendance> attendanceList = null;
-//        System.out.println(filterDto.getStartDate());
-//        System.out.println(filterDto.getEndDate());
 
         try {
             List<Student> students = studentService.fetchAllStudents();

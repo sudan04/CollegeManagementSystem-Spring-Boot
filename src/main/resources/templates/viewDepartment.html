@@ -17,7 +17,6 @@
                 <tr>
                     <th>S.N</th>
                     <th onclick="sortTable(1)">Department Name</th>
-                    <th>Department Description</th>
                     <th>HOD</th>
                     <th>Actions</th>
                 </tr>
@@ -26,7 +25,6 @@
                 <tr th:each="department, iterStat : ${departments}">
                     <td th:text="${iterStat.count}"></td>
                     <td th:text="${department.name}" class="department-name"></td>
-                    <td th:text="${department.description}"></td>
                     <td th:if="${department.headOfDepartment != null}" 
                         th:text="${department.headOfDepartment.user.firstName + ' ' + department.headOfDepartment.user.lastName}"></td>
                     <td th:if="${department.headOfDepartment == null}" class="no-hod">No HOD assigned</td>

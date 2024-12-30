@@ -44,7 +44,7 @@ public class StudentService {
         if (student == null) {
             throw new Exception("Student not found!");
         }
-        student.setProgram(program);
+        
         Student updatedStudent = studentRepository.save(student);
 
         if (updatedStudent == null) {

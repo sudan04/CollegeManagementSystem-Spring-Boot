@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.example.cms.entity.Users;
+import com.example.cms.enums.Role;
 import com.example.cms.repository.UserRepository;
 
 import jakarta.servlet.http.HttpSession;
@@ -17,6 +18,7 @@ public class HomeController {
 	
 	@Autowired
 	private UserRepository userRepository;
+	
 
     @GetMapping("/homepage/home")
     public String getAdminHomePage(Model model, HttpSession session) {
@@ -46,8 +48,45 @@ public class HomeController {
         Users user = userRepository.findByUserName(username);
         model.addAttribute("user", user);
         model.addAttribute("content", "userProfile");
+        if(user.getRole() == Role.ADMIN)
+        return "sidebar"; 
+        
+        else if(user.getRole() == Role.STUDENT)
+        	return "student_nav";
+        
+        else
+        	return "faculty_nav";
+    }
+    
+    @GetMapping("/student/home")
+    public String getStudentHomePage(Model model) {
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name;
 
-        return "sidebar"; // Ensure this matches the Thymeleaf template name
+        if (principal instanceof UserDetails) {
+            name = ((UserDetails) principal).getUsername();
+        } else {
+            name = principal.toString();
+        }
+    	model.addAttribute("name", userRepository.findByUserName(name).getFirstName());
+    	model.addAttribute("content", "studentHome");
+    	return "student_nav";
+    }
+    
+    
+    @GetMapping("/faculty/home")
+    public String getFacultyHomePage(Model model) {
+    	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        String name;
+
+        if (principal instanceof UserDetails) {
+            name = ((UserDetails) principal).getUsername();
+        } else {
+            name = principal.toString();
+        }
+    	model.addAttribute("name", userRepository.findByUserName(name).getFirstName());
+    	model.addAttribute("content", "facultyHome");
+    	return "faculty_nav";
     }
     
 }

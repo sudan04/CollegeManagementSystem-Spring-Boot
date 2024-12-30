@@ -97,15 +97,10 @@ public class AdminController {
     }
     
     // Delete user by userID
-    @GetMapping("/deleteUser/userId/{userId}")
-    public String deleteUser(@PathVariable Long userId, Model model) {
-        boolean isDeleted = userService.deleteUser(userId);
-        if (isDeleted) {
-            model.addAttribute("successMessage", "User deleted successfully!");
-        } else {
-            model.addAttribute("errorMessage", "User not found!");
-        }
-        return "register";
+    @GetMapping("/deleteUser")
+    public String deleteUser(@RequestParam(name= "userId") Long userId, Model model) {
+        userService.deleteUser(userId);
+        return "redirect:viewUsers";
     }
 
     //Update user by email

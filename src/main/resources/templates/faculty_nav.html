@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Content Layout</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f4f9; /* Light blue-gray for a soothing background */
+            color: #333; /* Default text color */
+        }
+
+        /* Navbar Styling */
+        .navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #0056b3; /* Deep blue for navbar */
+            padding: 10px 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .navbar img {
+            height: 50px;
+            border-radius: 50%;
+        }
+        .navbar .menu {
+            display: flex;
+            align-items: center;
+        }
+        .navbar .menu a {
+            margin: 0 10px;
+            text-decoration: none;
+            color: #f9f9f9; 
+            font-size: 16px;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .navbar .menu a:hover {
+            color: #ffc107; /* Gold hover effect */
+        }
+        .navbar .user-info {
+            font-size: 18px;
+            color: #f9f9f9; /* White text for user info */
+            margin-right: 15px;
+        }
+
+        /* Main Content Styling */
+        .main-content {
+            margin: 40px auto;
+            padding: 30px;
+            max-width: 1200px;
+            background: #ffffff; /* White background for content box */
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+        .main-content h1 {
+            font-size: 28px;
+            color: #0056b3; /* Match heading color with navbar */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .main-content p {
+            font-size: 16px;
+            color: #555;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
+        /* Dynamic Content Placeholder Styling */
+        .dynamic-content {
+            font-size: 16px;
+            color: #333;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .navbar .menu {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .main-content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <div class="navbar">
+        <div class="logo-section">
+            <img src="/images/CMS-logo.png" alt="College Logo">
+            <span class="user-info">Welcome, <span th:text="${name}">User</span></span>
+        </div>
+        <div class="menu">
+            <a th:href="@{/faculty/home}" th:text="'Home'"></a>
+            <a th:href="@{/faculty/markAttendance}" th:text="'Mark Attendance'"></a>
+            <a th:href="@{/view-attendance}" th:text="'View Attendance'"></a>
+            <a th:href="@{/courses-enrolled}" th:text="'Courses Taught'"></a>
+            <a th:href="@{/userProfile}" th:text="'View Profile'"></a>
+            <a th:href="@{/logout}" th:text="'Logout'"></a>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+	   
+	    <div th:insert="~{${content}}"></div>
+	</div>
+
+</body>
+</html>

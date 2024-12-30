@@ -31,7 +31,6 @@ public class Student {
 
     @CreationTimestamp
     private LocalDate enrollmentDate;
-    private String program;
     
     @OneToMany(mappedBy= "student", cascade= CascadeType.REMOVE)
     private List<Attendance> attendance;
@@ -54,17 +53,12 @@ public class Student {
 	public void setEnrollmentDate(LocalDate enrollmentDate) {
 		this.enrollmentDate = enrollmentDate;
 	}
-	public String getProgram() {
-		return program;
-	}
-	public void setProgram(String program) {
-		this.program = program;
-	}
+	
 	
 	@Override
 	public String toString() {
 		return "Student [studentId=" + studentId + ", user=" + user + ", enrollmentDate="
-				+ enrollmentDate + ", program=" + program + "]";
+				+ enrollmentDate + "]";
 	}
 	
 	

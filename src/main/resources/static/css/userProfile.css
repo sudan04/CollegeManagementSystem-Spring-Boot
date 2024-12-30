@@ -2,13 +2,13 @@ body {
             font-family: 'Roboto', Arial, sans-serif;
             margin: 0;
             padding: 0;
-            background: #f4f7fa;
+            background: rgb(0, 255, 255);
             color: #333;
         }
 
         .profile-container {
             margin: 50px auto;
-            background: #ffffff;
+            background: rgb(0, 255, 255);
             border-radius: 10px;
             box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
             padding: 30px 40px;
